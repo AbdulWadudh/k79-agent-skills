@@ -6,6 +6,38 @@ A modular, language-agnostic, Spec-Driven engineering skill suite (`k79-*`) for 
 
 Current suite version: see [`VERSION`](./VERSION).
 
+---
+
+## One-Paste Project Bootstrap Prompt
+
+Copy this into your coding agent inside **any new or existing project repository**:
+
+```text
+Bootstrap and align this project with my Engineering Skills repository (AbdulWadudh/k79-agent-skills):
+
+1. Install or Update Global Skills:
+   - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y`
+     (use `npx skills@latest add ...` if Bun is unavailable; add `--copy` on Windows if linking fails).
+   - Verify all 8 `k79-*` skills appear in `~/.agents/skills/`.
+   - Report the installed suite version from `~/.agents/skills/k79-master-engineering/VERSION`.
+
+2. Read the Constitution:
+   - Read `k79-master-engineering/SKILL.md` and `k79-master-engineering/AGENTS.router.md` from the installed skills directory.
+
+3. Non-Destructive Project AGENTS.md Alignment:
+   - Check if this project has an existing `AGENTS.md` in the root directory.
+   - If NO `AGENTS.md` exists: Create `AGENTS.md` starting with the contents of `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
+   - If `AGENTS.md` ALREADY exists:
+     - PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks.
+     - MERGE or UPDATE the Skill Router block from `k79-master-engineering/AGENTS.router.md` cleanly at the top of `AGENTS.md`.
+     - RECONCILE CONFLICTS: Scan the existing `AGENTS.md` for generic coding rules that directly contradict our constitution and align only those specific lines.
+     - Show me a summary of the changes made to `AGENTS.md`.
+
+4. Do not modify source code as part of this bootstrap.
+```
+
+---
+
 ## Why This Exists (Problems Solved)
 
 Coding agents routinely fail in production codebases due to predictable LLM anti-patterns: context pollution, hallucinated requirements, 1,500-line God files, vague variable naming (`data`, `temp`), circular barrel imports, speculative overengineering, happy-path-only tests, and bulk Git commits.
@@ -187,7 +219,7 @@ Node fallback: replace `bunx skills@latest` with `npx skills@latest`.
 
 What global install **does not** do:
 
-- It does not modify any project's `AGENTS.md`. Enforcement is automatic only after you run the bootstrap prompt below (or merge `AGENTS.router.md` yourself).
+- It does not modify any project's `AGENTS.md`. Enforcement is automatic only after you run the bootstrap prompt above (or merge `AGENTS.router.md` yourself).
 - It does not pin to a tag; updates follow the default branch. The `VERSION` marker is what makes version comparison meaningful.
 - It does not update itself on a schedule. The agent only checks when you say "update k79-agent-skills".
 - It requires Node 22.20+. Older Node versions fail before installation starts.
@@ -197,36 +229,6 @@ Other things to know:
 - On Windows, if junction creation is blocked, re-run with `--copy`.
 - Skills are instructions with full agent permissions. Review `SKILL.md` files before installing, like any third-party skill.
 - `--all` installs to every supported agent and creates a lot of links; prefer naming agents with `-a`.
-
----
-
-## One-Paste Project Bootstrap Prompt
-
-Copy this into your coding agent inside **any new or existing project repository**:
-
-```text
-Bootstrap and align this project with my Engineering Skills repository (AbdulWadudh/k79-agent-skills):
-
-1. Install or Update Global Skills:
-   - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y`
-     (use `npx skills@latest add ...` if Bun is unavailable; add `--copy` on Windows if linking fails).
-   - Verify all 8 `k79-*` skills appear in `~/.agents/skills/`.
-   - Report the installed suite version from `~/.agents/skills/k79-master-engineering/VERSION`.
-
-2. Read the Constitution:
-   - Read `k79-master-engineering/SKILL.md` and `k79-master-engineering/AGENTS.router.md` from the installed skills directory.
-
-3. Non-Destructive Project AGENTS.md Alignment:
-   - Check if this project has an existing `AGENTS.md` in the root directory.
-   - If NO `AGENTS.md` exists: Create `AGENTS.md` starting with the contents of `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
-   - If `AGENTS.md` ALREADY exists:
-     - PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks.
-     - MERGE or UPDATE the Skill Router block from `k79-master-engineering/AGENTS.router.md` cleanly at the top of `AGENTS.md`.
-     - RECONCILE CONFLICTS: Scan the existing `AGENTS.md` for generic coding rules that directly contradict our constitution and align only those specific lines.
-     - Show me a summary of the changes made to `AGENTS.md`.
-
-4. Do not modify source code as part of this bootstrap.
-```
 
 ---
 
