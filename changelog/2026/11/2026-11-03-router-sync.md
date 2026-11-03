@@ -3,8 +3,8 @@ title: "Remove duplicated routing from AGENTS.md and add a sync check"
 date: "2026-11-03"
 type: changed
 scope: "AGENTS.md, skills/k79-conductor, scripts/sync-agents.mjs, README.md"
-version: ""
-released: ""
+version: "1.1.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

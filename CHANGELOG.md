@@ -6,10 +6,16 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+_No unreleased changes._
+
+## [1.1.0] - 2026-11-03
+
 ### Changed
 
 - Make project-local install the default and drop agent selection ([details](changelog/2026/11/2026-11-03-local-install-default.md))
 - Remove duplicated routing from AGENTS.md and add a sync check ([details](changelog/2026/11/2026-11-03-router-sync.md))
+
+[Full release notes](./release-notes/v1.1.0.md)
 
 ## [1.0.1] - 2026-11-03
 

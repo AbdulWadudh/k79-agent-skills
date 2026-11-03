@@ -3,8 +3,8 @@ title: "Make project-local install the default and drop agent selection"
 date: "2026-11-03"
 type: changed
 scope: "README.md, changelog.config.json, skills/k79-conductor"
-version: ""
-released: ""
+version: "1.1.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---
