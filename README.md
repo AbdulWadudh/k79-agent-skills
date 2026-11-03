@@ -108,7 +108,7 @@ k79-agent-skills/
 │   ├── sync-agents.mjs                      # Check or replace the marked AGENTS.md block
 │   └── release.mjs                          # Stamp, bump, notes, commit, tag, push, publish
 ├── .github/workflows/
-│   └── release.yml                          # Fallback only when gh cannot publish
+│   └── release.yml                          # Fallback on k79-release-fallback/* branch
 └── skills/
     ├── k79-conductor/
     │   ├── SKILL.md                         # Phase-gated workflow + update protocol
@@ -435,7 +435,7 @@ npm run release -- patch
 
 The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates release notes from the entry diff, updates the manifest, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, pushes with `--follow-tags`, and publishes the GitHub Release (unless `--no-push`).
 
-After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md` locally. If `gh` is unavailable or unauthenticated, the tag-triggered fallback workflow (`.github/workflows/release.yml`) publishes the release after a short head start. The workflow publishes only if the release is still missing, so a configured `gh` normally wins and the workflow skips. If Actions is disabled, the script prints the exact command.
+After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md` locally. If that fails or `gh` is missing, it pushes a `k79-release-fallback/vX.Y.Z` branch. That branch is the only trigger for `.github/workflows/release.yml`; the workflow publishes from the generated notes and deletes the branch. A successful local publish never triggers the workflow.
 
 Dry run:
 

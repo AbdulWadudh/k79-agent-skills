@@ -318,9 +318,21 @@ if (!remote) {
   console.log(`Pushed ${branch} and ${tag}.`);
 
   const notesFile = releaseNotesFile(tag);
+
+  function triggerFallbackWorkflow() {
+    const fallbackBranch = `k79-release-fallback/${tag}`;
+    try {
+      git('push', '--force', 'origin', `HEAD:refs/heads/${fallbackBranch}`);
+      console.log(`Pushed ${fallbackBranch}; the fallback workflow will publish the release.`);
+    } catch {
+      console.log('Could not push the fallback branch. Publish manually:');
+      console.log(`  gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
+    }
+  }
+
   if (!commandAvailable('gh', ['--version'])) {
-    console.log('GitHub CLI not found; the tag-triggered fallback workflow will publish the release.');
-    console.log(`If Actions is disabled, run: gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
+    console.log('GitHub CLI not found; triggering the fallback workflow with a branch push.');
+    triggerFallbackWorkflow();
   } else if (tryCommand('gh', ['release', 'view', tag, '--json', 'tagName'])) {
     console.log(`GitHub Release ${tag} already exists.`);
   } else {
@@ -332,8 +344,8 @@ if (!remote) {
       );
       console.log(`Published GitHub Release ${tag}.`);
     } catch {
-      console.log('Local publish failed; the tag-triggered fallback workflow will publish the release.');
-      console.log(`If Actions is disabled, run: gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
+      console.log('Local publish failed; triggering the fallback workflow with a branch push.');
+      triggerFallbackWorkflow();
     }
   }
 }
