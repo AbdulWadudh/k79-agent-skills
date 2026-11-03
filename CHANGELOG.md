@@ -1,18 +1,24 @@
 # Changelog
 
-All notable changes to this project are documented here. This project follows [Semantic Versioning](https://semver.org/).
+All notable changes to this project are documented here. Generated from
+[`changelog/`](./changelog) by `bun run changelog` — do not edit by hand.
+This project follows [Semantic Versioning](https://semver.org/).
+
+## Unreleased
+
+### Added
+
+- Add a folder-per-change changelog ledger with generated release notes ([details](changelog/2026/11/2026-11-03-changelog-ledger.md))
+- Teach the Git skill to maintain changelogs and release notes ([details](changelog/2026/11/2026-11-03-changelog-skill-rules.md))
+
+### Changed
+
+- Make the skill router portable across agents ([details](changelog/2026/11/2026-11-03-portable-skill-router.md))
 
 ## [0.1.0] - 2026-11-03
 
 ### Added
 
-- Initial public release with the `k79-master-engineering` orchestrator and seven domain skills.
-- MIT license.
-- Global installation and agent linking via `npx skills add` / `bunx skills add`.
-- Version markers (`VERSION` and `metadata.version`) so agents can compare installed and latest versions.
-- Approval-gated self-update protocol triggered by "update k79-agent-skills".
-- Release automation: validation script, changelog generation, annotated tags, and GitHub Releases.
+- Initial public release of the k79 skill suite ([details](changelog/2026/11/2026-11-03-initial-release.md))
 
-### Fixed
-
-- Skill frontmatter names now match their `k79-*` directories so global installs keep the `k79-` namespace and every router path resolves correctly.
+[Full release notes](./release-notes/v0.1.0.md)

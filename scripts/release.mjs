@@ -17,6 +17,7 @@
  *   --no-push      Commit and tag locally, but do not push.
  *   --allow-dirty  Skip the clean-working-tree check (not recommended).
  *   --allow-branch Allow releasing from a branch other than main.
+ *   --allow-empty-changelog  Permit a release with no unreleased changelog entries.
  */
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -27,6 +28,9 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const skillsRoot = join(repoRoot, 'skills');
 const versionFile = join(repoRoot, 'VERSION');
 const changelogFile = join(repoRoot, 'CHANGELOG.md');
+const changelogScript = join(repoRoot, 'scripts', 'changelog.mjs');
+const changelogRoot = join(repoRoot, 'changelog');
+const releaseNotesFile = (tag) => join(repoRoot, 'release-notes', `${tag}.md`);
 const packageFile = join(repoRoot, 'package.json');
 const masterVersionFile = join(skillsRoot, 'k79-master-engineering', 'VERSION');
 const semverPattern = /^\d+\.\d+\.\d+$/;
@@ -38,6 +42,7 @@ const dryRun = flags.has('--dry-run');
 const noPush = flags.has('--no-push');
 const allowDirty = flags.has('--allow-dirty');
 const allowBranch = flags.has('--allow-branch');
+const allowEmptyChangelog = flags.has('--allow-empty-changelog');
 
 function fail(message) {
   console.error(`error: ${message}`);
@@ -153,24 +158,31 @@ execFileSync(process.execPath, [join(repoRoot, 'scripts', 'validate-skills.mjs')
   stdio: 'inherit',
 });
 
-const previousTag = tryGit('describe', '--tags', '--abbrev=0', '--match', 'v*');
-const commitRange = previousTag ? `${previousTag}..HEAD` : 'HEAD';
-const subjects = tryGit('log', commitRange, '--no-merges', '--pretty=format:%s')
-  .split(/\r?\n/)
-  .map((subject) => subject.trim())
-  .filter(Boolean)
-  .filter((subject) => !subject.startsWith('chore(release):'));
-
 const releaseDate = new Date().toISOString().slice(0, 10);
-const changelogEntry = [
-  `## [${nextVersion}] - ${releaseDate}`,
-  '',
-  '### Changed',
-  '',
-  ...(subjects.length > 0 ? subjects.map((subject) => `- ${subject}`) : ['- Initial release.']),
-  '',
-  '',
-].join('\n');
+
+function readChangelogEntries() {
+  if (!existsSync(changelogRoot)) return [];
+  const entries = [];
+  const walk = (directory) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const fullPath = join(directory, entry.name);
+      if (entry.isDirectory()) walk(fullPath);
+      else if (entry.isFile() && entry.name.endsWith('.md') && entry.name !== 'TEMPLATE.md') {
+        const text = readText(fullPath);
+        const version = text.match(/^version:\s*"?([^"\n]*)"?\s*$/m)?.[1] ?? '';
+        const title = text.match(/^title:\s*"?(.*?)"?\s*$/m)?.[1] ?? relative(changelogRoot, fullPath);
+        if (!version) entries.push({ file: fullPath, title });
+      }
+    }
+  };
+  walk(changelogRoot);
+  return entries;
+}
+
+const unreleasedEntries = readChangelogEntries();
+if (unreleasedEntries.length === 0 && !allowEmptyChangelog) {
+  fail('no unreleased changelog entries; add changelog/YYYY/MM/YYYY-MM-DD-<slug>.md or pass --allow-empty-changelog');
+}
 
 const skillFiles = readdirSync(skillsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
@@ -183,14 +195,31 @@ const changedFiles = [
   'package.json',
   'skills/k79-master-engineering/VERSION',
   ...skillFiles.map((filePath) => relative(repoRoot, filePath).split(sep).join('/')),
+  'changelog',
+  `release-notes/${tag}.md`,
 ];
 
 if (dryRun) {
   console.log(`Would update: ${changedFiles.join(', ')}`);
   console.log(`Would commit "chore(release): ${tag}" and create tag ${tag}.`);
-  console.log(subjects.length > 0 ? `Changelog entries:\n${subjects.map((s) => `  - ${s}`).join('\n')}` : 'Changelog entries: none');
+  console.log(`Would stamp ${unreleasedEntries.length} changelog entr${unreleasedEntries.length === 1 ? 'y' : 'ies'}:`);
+  for (const entry of unreleasedEntries) console.log(`  - ${entry.title}`);
   process.exit(0);
 }
+
+console.log('Stamping changelog entries and generating release notes...');
+execFileSync(
+  process.execPath,
+  [
+    changelogScript,
+    '--stamp', nextVersion,
+    '--release', nextVersion,
+    '--previous', currentVersion,
+    '--date', releaseDate,
+    '--quiet',
+  ],
+  { cwd: repoRoot, stdio: 'inherit' },
+);
 
 writeFileSync(versionFile, `${nextVersion}\n`, 'utf8');
 writeFileSync(masterVersionFile, `${nextVersion}\n`, 'utf8');
@@ -205,17 +234,11 @@ for (const skillFile of skillFiles) {
   writeFileSync(skillFile, updateSkillVersion(readText(skillFile), nextVersion, skillFile), 'utf8');
 }
 
-const previousChangelog = existsSync(changelogFile)
-  ? readText(changelogFile)
-  : '# Changelog\n\nAll notable changes to this project are documented here. This project follows [Semantic Versioning](https://semver.org/).\n\n';
-
-const insertionPoint = previousChangelog.search(/^## \[/m);
-const nextChangelog = insertionPoint === -1
-  ? `${previousChangelog.trimEnd()}\n\n${changelogEntry}`
-  : `${previousChangelog.slice(0, insertionPoint)}${changelogEntry}${previousChangelog.slice(insertionPoint)}`;
-writeFileSync(changelogFile, nextChangelog, 'utf8');
+if (!existsSync(changelogFile)) fail('CHANGELOG.md was not generated by scripts/changelog.mjs');
+if (!existsSync(releaseNotesFile(tag))) fail(`release-notes/${tag}.md was not generated`);
 
 git('add', ...changedFiles);
+
 git('commit', '-m', `chore(release): ${tag}`);
 git('tag', '-a', tag, '-m', tag);
 

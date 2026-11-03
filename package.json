@@ -10,6 +10,10 @@
     "skills:node": "node scripts/list-skills.mjs",
     "validate": "bun scripts/validate-skills.mjs",
     "validate:node": "node scripts/validate-skills.mjs",
+    "changelog": "bun scripts/changelog.mjs",
+    "changelog:node": "node scripts/changelog.mjs",
+    "changelog:check": "bun scripts/changelog.mjs --check",
+    "changelog:check:node": "node scripts/changelog.mjs --check",
     "release": "bun scripts/release.mjs",
     "release:node": "node scripts/release.mjs"
   },
