@@ -1,6 +1,6 @@
 ---
 name: k79-conductor
-description: Conductor and workflow router that coordinates the 7 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
+description: Conductor and workflow router that coordinates the 8 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, Prompt Craft, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
 license: MIT
 metadata:
   version: "2.3.0"
@@ -21,6 +21,9 @@ Follow this strict sequential lifecycle for every task. Load the required modula
 - **Newer version:** Show the current version, latest version, and release notes. **STOP for explicit approval.**
 - **On approval:** Reinstall the same scope. Project (from the repo root): `bunx skills@latest add AbdulWadudh/k79-agent-skills -y`. Global: add `-g`. Verify `VERSION`, then run `node scripts/sync-agents.mjs --sync` and `--check` so the marked `AGENTS.md` block matches without deleting project content.
 - **Never** update without approval or touch unrelated skills.
+
+## Prompt Tasks (Any Time)
+If the request is to write a prompt, task brief, or handoff, load `k79-prompt-craft`, run its goal-agreement interview, and do not start coding.
 
 ## Phase 1: Specification & Blast-Radius Lock (Before Coding)
 - **Load:** `k79-spec-driven`

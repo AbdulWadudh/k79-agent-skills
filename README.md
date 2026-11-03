@@ -29,7 +29,7 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
 1. Install the suite locally (default, no agent selection):
    - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -y` from the repo root.
    - This creates `<repo>/.agents/skills/` and `<repo>/skills-lock.json` only. It does not create `.claude/skills/`, `agent/skills/`, or any per-agent mirror.
-   - Verify all 8 `k79-*` skills are in `.agents/skills/` and report the `VERSION` from `k79-conductor/VERSION`.
+   - Verify all 9 `k79-*` skills are in `.agents/skills/` and report the `VERSION` from `k79-conductor/VERSION`.
    - Global (`-g`) and per-agent (`-a <agent>` or `--agent '*'`) installs are optional and advanced. Do not use them unless I ask.
 
 2. Read the Constitution:
@@ -45,7 +45,7 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
        <!-- k79:router:end -->
        ```
        then a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
-     - Do not paste the seven task-to-skill mappings a second time. The reminder is the only copy in `AGENTS.md`; the router block points at `k79-conductor`.
+     - Do not paste the task-to-skill mappings a second time. The reminder is the only copy in `AGENTS.md`; the router block points at `k79-conductor`.
      - If `AGENTS.md` ALREADY exists: PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks. Replace only the marked block. If there are no markers, insert the reminder and a marked block at the top without deleting anything. Show me a summary of the changes.
    - Copy `k79-conductor/scripts/sync-agents.mjs` to `<project>/scripts/sync-agents.mjs`, add `agents:check` and `agents:sync` package scripts, and run `node scripts/sync-agents.mjs --check`.
    - SHIMS: never duplicate the router body. Add a pointer only where an agent does not read `AGENTS.md` directly:
@@ -71,7 +71,7 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
 
 Coding agents routinely fail in production codebases due to predictable LLM anti-patterns: context pollution, hallucinated requirements, 1,500-line God files, vague variable naming (`data`, `temp`), circular barrel imports, speculative overengineering, happy-path-only tests, and bulk Git commits.
 
-This repository solves those failure modes through **1 Conductor** and **7 Modular Domain Skills**, all namespaced with `k79-` to prevent collisions in global skill directories:
+This repository solves those failure modes through **1 Conductor** and **8 Modular Domain Skills**, all namespaced with `k79-` to prevent collisions in global skill directories:
 
 | Skill | What Problem It Solves | Core Enforcement |
 | :--- | :--- | :--- |
@@ -83,6 +83,7 @@ This repository solves those failure modes through **1 Conductor** and **7 Modul
 | **`k79-performance-and-db`** | **Slow Queries, N+1 Loops & Unbounded Fetches:** Un-transactional multi-writes, `SELECT *` memory bloat, and missing API timeouts. | Enforces explicit column selection, zero queries in loops, cursor pagination, DB transactions, Mongoose `.lean()`, `Promise.all`, `AbortSignal.timeout()`, and UI debouncing/lazy-loading. |
 | **`k79-verification-testing`** | **False "Done" Claims & Tautological Tests:** Agents mocking the function under test or writing only happy-path tests that miss production crashes. | Mirrors `src/` 1-to-1 in top-level `tests/`, bans mocks on pure `helpers/`, mandates a **1:2 Happy-to-Breaking** adversarial test ratio, and supports both New and Legacy repos. |
 | **`k79-logging-errors-git`** | **Swallowed Errors, Log Spam, Sloppy Commits & Missing Release Notes:** Double-logging, bare `console.log` strings, bulk `git add .` commits, AI co-author spam, and a hand-maintained changelog that conflicts on every branch. | Enforces throwing with context in leaf files, logging once at boundaries with structured JSON metadata (`what/when/why`), on-demand atomic Git commits with zero AI attribution, and a folder-per-change ledger that generates release notes from entry diffs. |
+| **`k79-prompt-craft`** | **Vague Requests & Lost Context:** Agents start coding before the outcome, scope, or success criteria are agreed, then produce a prompt or implementation that misses the point. | Runs a goal-agreement interview, gathers repo evidence, challenges scope, and emits one self-contained prompt with file scope, observable acceptance criteria, real commands, assumptions, and a first action. |
 
 ---
 
@@ -117,6 +118,7 @@ k79-agent-skills/
     │   ├── scripts/sync-agents.mjs          # Keeps the AGENTS.md block in sync
     │   ├── hooks/                           # Optional SessionStart / compaction reminders
     │   └── VERSION                          # Installed version marker
+    ├── k79-prompt-craft/SKILL.md
     ├── k79-spec-driven/SKILL.md
     ├── k79-code-structure/SKILL.md
     ├── k79-evidence-and-simplicity/SKILL.md
@@ -144,7 +146,7 @@ bunx skills@latest add AbdulWadudh/k79-agent-skills -y
 
 This creates exactly:
 
-- `.agents/skills/` — the canonical copy of all 8 skills.
+- `.agents/skills/` — the canonical copy of all 9 skills.
 - `skills-lock.json` — the project lockfile.
 
 It does **not** create `.claude/skills/`, `agent/skills/`, or any per-agent mirror. No `-a` flag is required.
@@ -178,7 +180,7 @@ bun run skills
 ```
 
 ```text
-Available skills (8) — suite version 0.1.0:
+Available skills (9) — suite version 2.4.0:
   - k79-code-structure
   - k79-config-and-security
   - ...

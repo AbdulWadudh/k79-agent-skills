@@ -9,6 +9,7 @@
 - **Performance:** DB, API, cache, UI -> `k79-performance-and-db`.
 - **Tests:** mirror `tests/`, 1:2 happy-to-breaking, no mocks in `helpers/` -> `k79-verification-testing`.
 - **Git:** errors, logs, commit, or release -> `k79-logging-errors-git`.
+- **Prompt or task brief:** vague, multi-step, or handoff -> `k79-prompt-craft`. Interview until the goal is agreed, then emit one prompt.
 
 Before saying "done": name the skill you loaded, the check you ran, and the changelog entry you added.
 
@@ -25,7 +26,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
 3. `~/.claude/skills/`
 4. `~/.config/opencode/skills/`
 
-1. **Workflow Entrypoint:** Load `k79-conductor` first. It owns phase order, approval gates, and routes to the seven domain skills. Load a domain skill directly only when the task is already unambiguous.
+1. **Workflow Entrypoint:** Load `k79-conductor` first. It owns phase order, approval gates, and routes to the eight domain skills. Load a domain skill directly only when the task is already unambiguous.
 
 2. **Core Non-Negotiables (Always Active):**
    - **Spec First:** For any new feature or contract/logic change, create/update `<feature>.spec.md` and **STOP for user approval** before editing source code. Never remove `@quirk:` code without checking the spec.
