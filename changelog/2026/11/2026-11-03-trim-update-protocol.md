@@ -3,8 +3,8 @@ title: "Trim the suite update protocol to its essentials"
 date: "2026-11-03"
 type: changed
 scope: "skills/k79-master-engineering/SKILL.md, skills/k79-master-engineering/AGENTS.router.md"
-version: ""
-released: ""
+version: "0.3.0"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---

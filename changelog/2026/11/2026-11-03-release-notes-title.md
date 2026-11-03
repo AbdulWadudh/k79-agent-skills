@@ -3,8 +3,8 @@ title: "Remove the duplicate release title from generated notes"
 date: "2026-11-03"
 type: fixed
 scope: "scripts/changelog.mjs, release-notes/"
-version: ""
-released: ""
+version: "0.3.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

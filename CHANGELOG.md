@@ -6,6 +6,10 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+_No unreleased changes._
+
+## [0.3.0] - 2026-11-03
+
 ### Added
 
 - Ship the changelog generator with the skill so other projects can adopt it ([details](changelog/2026/11/2026-11-03-portable-changelog-generator.md))
@@ -17,6 +21,8 @@ This project follows [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - Remove the duplicate release title from generated notes ([details](changelog/2026/11/2026-11-03-release-notes-title.md))
+
+[Full release notes](./release-notes/v0.3.0.md)
 
 ## [0.2.0] - 2026-11-03
 

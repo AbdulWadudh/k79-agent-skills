@@ -3,8 +3,8 @@ title: "Ship the changelog generator with the skill so other projects can adopt 
 date: "2026-11-03"
 type: added
 scope: "skills/k79-logging-errors-git/scripts/changelog.mjs, changelog.config.json, README.md"
-version: ""
-released: ""
+version: "0.3.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

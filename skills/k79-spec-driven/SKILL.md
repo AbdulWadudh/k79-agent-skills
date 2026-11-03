@@ -3,7 +3,7 @@ name: k79-spec-driven
 description: Mandatory language-agnostic Spec-Driven Development (SDD) workflow, approval gates, 250-line spec scaling, and @quirk workaround tracking. Load before building features, changing behavior, or writing workarounds in any language.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 
