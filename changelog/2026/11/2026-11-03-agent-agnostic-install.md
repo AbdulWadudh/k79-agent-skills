@@ -3,8 +3,8 @@ title: "Use an agent-agnostic install command and document updates"
 date: "2026-11-03"
 type: changed
 scope: "changelog.config.json, README.md, skills/k79-master-engineering"
-version: ""
-released: ""
+version: "0.4.1"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

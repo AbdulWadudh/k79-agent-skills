@@ -3,7 +3,7 @@ name: k79-master-engineering
 description: Master orchestrator and workflow router that coordinates the 7 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
 license: MIT
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 
