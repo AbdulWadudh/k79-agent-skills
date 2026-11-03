@@ -3,6 +3,7 @@
  * Validates every skill in skills/ before it can be installed or released.
  * Zero dependencies so it runs anywhere Node 22+ is available.
  */
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -208,6 +209,14 @@ if (errors.length > 0) {
   console.error(`\nSkill validation failed (${errors.length} issue${errors.length === 1 ? '' : 's'}):`);
   for (const message of errors) console.error(`  - ${message}`);
   process.exit(1);
+}
+
+const releaseNotesScript = join(repoRoot, 'scripts', 'release-notes.mjs');
+if (existsSync(releaseNotesScript)) {
+  execFileSync(process.execPath, [releaseNotesScript, '--check'], {
+    cwd: repoRoot,
+    stdio: 'inherit',
+  });
 }
 
 console.log(`Validated ${skillDirectories.length} skills at version ${suiteVersion}.`);
