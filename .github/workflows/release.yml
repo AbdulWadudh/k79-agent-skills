@@ -1,0 +1,57 @@
+name: Release fallback
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check whether the release already exists
+        id: release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release $GITHUB_REF_NAME already exists; the local gh publish won."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Release $GITHUB_REF_NAME is missing; this workflow will publish it."
+          fi
+
+      - name: Verify tag matches VERSION
+        if: steps.release.outputs.exists == 'false'
+        shell: bash
+        run: |
+          tag_version="${GITHUB_REF_NAME#v}"
+          file_version="$(tr -d '[:space:]' < VERSION)"
+          if [ "$tag_version" != "$file_version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match VERSION $file_version" >&2
+            exit 1
+          fi
+
+      - name: Publish from the generated release notes
+        if: steps.release.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          notes_file="release-notes/${GITHUB_REF_NAME}.md"
+          test -f "$notes_file"
+          if ! gh release create "$GITHUB_REF_NAME" --verify-tag --title "k79-agent-skills ${GITHUB_REF_NAME}" --notes-file "$notes_file"; then
+            if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+              echo "Release was created concurrently; nothing to do."
+              exit 0
+            fi
+            exit 1
+          fi

@@ -319,16 +319,21 @@ if (!remote) {
 
   const notesFile = releaseNotesFile(tag);
   if (!commandAvailable('gh', ['--version'])) {
-    console.log('GitHub CLI not found; publish manually:');
-    console.log(`  gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
+    console.log('GitHub CLI not found; the tag-triggered fallback workflow will publish the release.');
+    console.log(`If Actions is disabled, run: gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
   } else if (tryCommand('gh', ['release', 'view', tag, '--json', 'tagName'])) {
     console.log(`GitHub Release ${tag} already exists.`);
   } else {
-    execFileSync(
-      'gh',
-      ['release', 'create', tag, '--verify-tag', '--title', `k79-agent-skills ${tag}`, '--notes-file', notesFile],
-      { cwd: repoRoot, stdio: 'inherit' },
-    );
-    console.log(`Published GitHub Release ${tag}.`);
+    try {
+      execFileSync(
+        'gh',
+        ['release', 'create', tag, '--verify-tag', '--title', `k79-agent-skills ${tag}`, '--notes-file', notesFile],
+        { cwd: repoRoot, stdio: 'inherit' },
+      );
+      console.log(`Published GitHub Release ${tag}.`);
+    } catch {
+      console.log('Local publish failed; the tag-triggered fallback workflow will publish the release.');
+      console.log(`If Actions is disabled, run: gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
+    }
   }
 }

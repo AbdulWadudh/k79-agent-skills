@@ -92,7 +92,7 @@ This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Cop
 ### Release sequence
 1. Run `release-notes:check` to validate entries and the append-only history.
 2. Run the release command. It stamps `version`/`released`, selects entries since the last tag (or manifest), generates `release-notes/vX.Y.Z.md`, updates `.last-release.json`, bumps version markers, commits, tags, and pushes.
-3. Publish the GitHub Release from `release-notes/vX.Y.Z.md` with `gh release create --verify-tag --notes-file ...`; the agent runs this locally.
+3. Publish the GitHub Release from `release-notes/vX.Y.Z.md` with `gh release create --verify-tag --notes-file ...`; the agent runs this locally. If `gh` is not configured, use the project's fallback: a tag-triggered workflow, or the exact command the script prints. Do not silently skip the release.
 4. Never rewrite a release note or a released entry. Add a new entry instead.
 
 ### Required generator behavior

@@ -107,6 +107,8 @@ k79-agent-skills/
 │   ├── release-notes.mjs                    # Validate entries and generate release notes
 │   ├── sync-agents.mjs                      # Check or replace the marked AGENTS.md block
 │   └── release.mjs                          # Stamp, bump, notes, commit, tag, push, publish
+├── .github/workflows/
+│   └── release.yml                          # Fallback only when gh cannot publish
 └── skills/
     ├── k79-conductor/
     │   ├── SKILL.md                         # Phase-gated workflow + update protocol
@@ -433,7 +435,7 @@ npm run release -- patch
 
 The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates release notes from the entry diff, updates the manifest, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, pushes with `--follow-tags`, and publishes the GitHub Release (unless `--no-push`).
 
-After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md`. If `gh` is unavailable or unauthenticated, it prints the exact command to run. There is no GitHub Actions workflow in this repository.
+After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md` locally. If `gh` is unavailable or unauthenticated, the tag-triggered fallback workflow (`.github/workflows/release.yml`) publishes the release; if Actions is disabled, the script prints the exact command. The workflow skips when the release already exists, so a configured `gh` wins and the workflow does nothing.
 
 Dry run:
 
