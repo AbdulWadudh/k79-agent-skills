@@ -420,23 +420,14 @@ function sortEntries(entries) {
   });
 }
 
-function generateReleaseNotes(targetVersion, boundary, selected) {
+function generateReleaseNotes(targetVersion, selected) {
   const repositoryUrl = resolveRepository();
-  const previousVersion = boundary.startsWith('manifest v')
-    ? boundary.slice('manifest v'.length)
-    : boundary.replace(/^v/, '');
   const releaseDate = today();
   const breaking = selected.filter((entry) => entry.breaking);
   const highlights = selected.filter((entry) => entry.highlight);
   const lines = [`**Release date:** ${releaseDate}`];
   const license = config.license || packageJson.license;
   if (license) lines.push(`**License:** ${license}`);
-  if (repositoryUrl) {
-    const compareUrl = previousVersion && previousVersion !== targetVersion
-      ? `${repositoryUrl}/compare/v${previousVersion}...v${targetVersion}`
-      : `${repositoryUrl}/releases/tag/v${targetVersion}`;
-    lines.push(`**Full diff:** ${compareUrl}`);
-  }
   lines.push('');
 
   lines.push('## Highlights', '');
@@ -572,7 +563,7 @@ function main() {
 
   const releaseFile = join(releaseNotesRoot, `v${version}.md`);
   mkdirSync(releaseNotesRoot, { recursive: true });
-  writeFileSync(releaseFile, generateReleaseNotes(version, boundary, selected), 'utf8');
+  writeFileSync(releaseFile, generateReleaseNotes(version, selected), 'utf8');
   console.log(`Wrote release-notes/v${version}.md from ${selected.length} entr${selected.length === 1 ? 'y' : 'ies'} since ${boundary}.`);
 
   const existing = readManifest();
