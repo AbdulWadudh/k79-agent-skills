@@ -3,8 +3,8 @@ title: "Keep the old skill path as a reminder fallback"
 date: "2026-11-03"
 type: fixed
 scope: "skills/k79-conductor/hooks/"
-version: ""
-released: ""
+version: "1.0.1"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---

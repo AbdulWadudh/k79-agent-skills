@@ -3,7 +3,7 @@ name: k79-code-structure
 description: Mandatory language-agnostic rules for file size limits (250-300 lines), feature folder architecture, strict naming conventions (files, functions, variables, booleans, units), and preventing circular dependencies across all languages. Load before creating files, naming symbols, refactoring, or editing files >220 lines.
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 

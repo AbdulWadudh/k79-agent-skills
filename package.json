@@ -1,6 +1,6 @@
 {
   "name": "k79-agent-skills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Curated k79 engineering skills for AI coding agents.",
   "type": "module",
