@@ -471,8 +471,9 @@ function generateReleaseNotes(targetVersion, boundary, selected) {
 
   if (repositoryUrl) {
     lines.push('## Links', '');
-    lines.push(`- [Changelog records](${repositoryUrl}/tree/main/changelog)`);
-    lines.push(`- [This release's entries](${repositoryUrl}/tree/main/changelog)`);
+    for (const entry of sortEntries(selected)) {
+      lines.push(`- [Change record: ${entry.title}](${repositoryUrl}/blob/main/${entry.path})`);
+    }
     if (license) lines.push(`- [License](${repositoryUrl}/blob/main/LICENSE)`);
     lines.push('');
   }
