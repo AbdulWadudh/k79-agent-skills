@@ -6,7 +6,9 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-_No unreleased changes._
+### Changed
+
+- Make the bootstrap install explicitly agent-agnostic ([details](changelog/2026/11/2026-11-03-bootstrap-agent-agnostic.md))
 
 ## [0.4.1] - 2026-11-03
 

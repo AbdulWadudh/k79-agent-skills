@@ -18,6 +18,8 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
 1. Install or Update Global Skills:
    - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y`
      (use `npx skills@latest add ...` if Bun is unavailable; add `--copy` on Windows if linking fails).
+   - `--agent '*'` installs for every supported agent. Name agents only to narrow it (`-a opencode`, `-a claude-code`).
+   - Re-running this command updates in place. `bunx skills@latest update -g -y` is the hash-based alternative.
    - Verify all 8 `k79-*` skills appear in `~/.agents/skills/`.
    - Report the installed suite version from `~/.agents/skills/k79-master-engineering/VERSION`.
 
@@ -33,7 +35,7 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
      - Gemini CLI: if no `GEMINI.md` exists, create one containing `@AGENTS.md`.
      - GitHub Copilot: if `.github/copilot-instructions.md` exists, add a one-line pointer to `AGENTS.md`.
      - Aider: if `.aider.conf.yml` exists, add `read: AGENTS.md`.
-   - OPTIONAL REMINDERS: install the hooks in `k79-master-engineering/hooks/README.md` (Claude Code `SessionStart`, OpenCode compaction). They only re-inject the reminder; they never block tools.
+   - OPTIONAL REMINDERS: `AGENTS.md` already covers every agent. For harnesses with hook APIs, `k79-master-engineering/hooks/README.md` adds re-injection (Claude Code `SessionStart`, OpenCode compaction). This is an optional extra, not a target list; the hooks only add context and never block tools.
    - Note that instruction files are context, not enforcement. Do not claim a rule is guaranteed.
 
 4. Changelog Tooling (only if the project has no changelog system):
@@ -253,11 +255,11 @@ Instruction files are **context, not enforcement**. For a rule that must hold, u
 
 Prompts are advisory. A reminder raises adherence; it does not guarantee it. The suite uses three lightweight reminders instead of gates:
 
-| Reminder | Where it lives | Survives compaction |
+| Reminder | Where it lives | Coverage |
 | :--- | :--- | :--- |
-| [`K79.reminder.md`](./skills/k79-master-engineering/K79.reminder.md) | Top of the project's `AGENTS.md` | No, unless a hook re-injects it |
-| Skill descriptions | The agent's skill list, shown every session | Yes |
-| Session hooks | Claude Code `SessionStart`, OpenCode compaction | Yes |
+| [`K79.reminder.md`](./skills/k79-master-engineering/K79.reminder.md) | Top of the project's `AGENTS.md` | Every agent that reads `AGENTS.md` or a shim |
+| Skill descriptions | The agent's skill list, shown every session | Every agent with skills support |
+| Session hooks | Claude Code `SessionStart`, OpenCode compaction | Only harnesses with hook APIs; optional |
 
 The bootstrap prompt prepends the reminder to `AGENTS.md`. The copy-paste hooks are in [`skills/k79-master-engineering/hooks/README.md`](./skills/k79-master-engineering/hooks/README.md). They only add context; they never block a tool.
 
