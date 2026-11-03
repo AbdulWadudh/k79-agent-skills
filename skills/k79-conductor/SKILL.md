@@ -23,7 +23,7 @@ Follow this strict sequential lifecycle for every task. Load the required modula
 - **Never** update without approval or touch unrelated skills.
 
 ## Prompt Tasks (Any Time)
-If the request is to write a prompt, task brief, or handoff, load `k79-prompt-craft`, run its goal-agreement interview, and do not start coding.
+If the request is to write a prompt, task brief, or handoff, load `k79-prompt-craft`, run its goal-agreement interview, and do not start coding. After it emits the prompt, ask whether to take it as input and continue this session.
 
 ## Phase 1: Specification & Blast-Radius Lock (Before Coding)
 - **Load:** `k79-spec-driven`
