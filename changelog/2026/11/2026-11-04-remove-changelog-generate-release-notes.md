@@ -3,8 +3,8 @@ title: "Remove CHANGELOG.md and generate release notes from entry diffs"
 date: "2026-11-04"
 type: changed
 scope: "scripts/, changelog/, release-notes/, skills/, README.md, AGENTS.md, CI"
-version: ""
-released: ""
+version: "2.0.0"
+released: "2026-11-03"
 breaking: true
 highlight: true
 ---

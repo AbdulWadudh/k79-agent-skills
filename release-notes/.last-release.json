@@ -1,0 +1,75 @@
+{
+  "version": "2.0.0",
+  "tag": "v2.0.0",
+  "generatedAt": "2026-11-03T19:36:33.658Z",
+  "entries": [
+    {
+      "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
+      "sha256": "b41e83fc26e2de2f6b474f3090d62e49172bf66ede03e84359070ca3eeea0113"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-bootstrap-agent-agnostic.md",
+      "sha256": "12e01f0265683eec2bb224ccb83668d1b295dec9ea102a387c6dab7fff71a643"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-changelog-ledger.md",
+      "sha256": "046251a47d41340c80dfc1b53c76a2840c5537414177a24d3bf1e8debb7a287c"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-changelog-skill-rules.md",
+      "sha256": "aa6ba3b192d4d220ac8655b1adaa7c7a324f9b48450454b007ab3f29fff93a68"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-hook-migration-fallback.md",
+      "sha256": "b1af4e1ed3906c3af0ccf0dde96f8702b7cb709f01151f9d74bfd71a213e4b8a"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-initial-release.md",
+      "sha256": "b351651b2684313a9b4000dda8ae84b826b833668a9bf582a8bf2e1b36b87bcb"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-install-scope-choice.md",
+      "sha256": "2ec0f803a373e83d3b2d246c06074afc1b857b659c0d5d268fbb26b111c55272"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-local-install-default.md",
+      "sha256": "87699daf53b47bf8471a403ce07cd9cc1454adaac8c50f60a17bebdf8f5c7291"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-opencode-reminder-js.md",
+      "sha256": "821b517e4c38986362d72ad6e4b2a2172f79818d3098c4d8e8afc27c0cdc54fa"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-portable-changelog-generator.md",
+      "sha256": "eda73ffd6c179370580342bff2f5e1783468972fd2448bfa1d156a159bb2e024"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-portable-skill-router.md",
+      "sha256": "1b556019640b45a7c11201ade6c7d8bbbc5d6301d5b4e3112c9256bedbfd3b1b"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-release-notes-title.md",
+      "sha256": "1459a2f6190d9d569092c9d9ab3a2006758b4284e569f7e6d169e2646a2eb816"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-reminder-pack.md",
+      "sha256": "37dd344a570177f20656dbc87557e2c5f24636b24573eb93f897b04b7017f542"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-rename-conductor.md",
+      "sha256": "05ae63b6432157b56c36cad95abc5bb6735295ab1dbd6af36a73b88175349192"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-router-sync.md",
+      "sha256": "fcadecd79b417fd56151efca29ddaf758271fcfe2d79b147daaa815ac8f86456"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-03-trim-update-protocol.md",
+      "sha256": "d482b87beda80011c65814dc1142fcf32da0a635c3ba40c64fbea039c8fea876"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-remove-changelog-generate-release-notes.md",
+      "sha256": "7b0100e1f134d281efc0fb3625c41e1d14b35c0bfaa5f046f3a58008cee6714f"
+    }
+  ]
+}
