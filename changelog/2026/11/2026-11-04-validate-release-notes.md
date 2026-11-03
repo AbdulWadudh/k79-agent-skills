@@ -3,8 +3,8 @@ title: "Run release-note validation from the skill validator"
 date: "2026-11-04"
 type: changed
 scope: "scripts/validate-skills.mjs"
-version: ""
-released: ""
+version: "2.0.1"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---
