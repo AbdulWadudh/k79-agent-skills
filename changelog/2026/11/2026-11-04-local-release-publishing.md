@@ -3,8 +3,8 @@ title: "Publish releases locally instead of through GitHub Actions"
 date: "2026-11-04"
 type: changed
 scope: ".github/workflows/, scripts/release.mjs, README.md, skills/"
-version: ""
-released: ""
+version: "2.1.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---
