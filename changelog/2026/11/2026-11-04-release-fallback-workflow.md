@@ -3,8 +3,8 @@ title: "Add a tag-triggered fallback for publishing releases"
 date: "2026-11-04"
 type: added
 scope: ".github/workflows/release.yml, scripts/release.mjs, README.md, skills/k79-logging-errors-git"
-version: ""
-released: ""
+version: "2.2.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

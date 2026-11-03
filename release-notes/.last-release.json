@@ -1,7 +1,7 @@
 {
-  "version": "2.1.0",
-  "tag": "v2.1.0",
-  "generatedAt": "2026-11-03T19:42:08.962Z",
+  "version": "2.2.0",
+  "tag": "v2.2.0",
+  "generatedAt": "2026-11-03T19:47:51.015Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -70,6 +70,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-local-release-publishing.md",
       "sha256": "25c14dd9905380651fbbbb639274ba7c4c193bde2ca8eb629a7f9699b097c9c2"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-release-fallback-workflow.md",
+      "sha256": "e6e36d62a235452e4efd256f2a1e17431d4a7b2642c5bcbec39dadc85205274d"
     },
     {
       "path": "changelog/2026/11/2026-11-04-remove-changelog-generate-release-notes.md",
