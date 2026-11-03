@@ -6,7 +6,9 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-_No unreleased changes._
+### Fixed
+
+- Keep the old skill path as a reminder fallback ([details](changelog/2026/11/2026-11-03-hook-migration-fallback.md))
 
 ## [1.0.0] - 2026-11-03
 
