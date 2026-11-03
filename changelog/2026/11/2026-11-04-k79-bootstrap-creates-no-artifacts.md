@@ -3,8 +3,8 @@ title: "Stop k79 bootstrap and updates from creating changelog entries or specs"
 date: "2026-11-04"
 type: changed
 scope: "skills/k79-conductor, skills/k79-spec-driven, skills/k79-logging-errors-git, README.md"
-version: ""
-released: ""
+version: "2.4.7"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

@@ -3,7 +3,7 @@ name: k79-conductor
 description: Conductor and workflow router that coordinates the 8 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, Prompt Craft, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
 license: MIT
 metadata:
-  version: "2.4.6"
+  version: "2.4.7"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 

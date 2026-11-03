@@ -1,7 +1,7 @@
 {
-  "version": "2.4.6",
-  "tag": "v2.4.6",
-  "generatedAt": "2026-11-03T20:58:37.474Z",
+  "version": "2.4.7",
+  "tag": "v2.4.7",
+  "generatedAt": "2026-11-03T21:12:50.774Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -82,6 +82,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-inline-commit-links.md",
       "sha256": "43b3c2baf77d954812adb2b7679f2477d21ab40109829153d333921467240fb8"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-k79-bootstrap-creates-no-artifacts.md",
+      "sha256": "55c3016aefed988efe464d6898818becb8d79973ad6eaa76ac327e91485d32a6"
     },
     {
       "path": "changelog/2026/11/2026-11-04-local-release-publishing.md",
