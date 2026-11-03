@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Verify tag matches VERSION
+        shell: bash
+        run: |
+          tag_version="${GITHUB_REF_NAME#v}"
+          file_version="$(tr -d '[:space:]' < VERSION)"
+          if [ "$tag_version" != "$file_version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match VERSION $file_version" >&2
+            exit 1
+          fi
+
+      - name: Validate skills
+        run: bun run validate
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists; nothing to do."
+            exit 0
+          fi
+          notes_file="release-notes/${GITHUB_REF_NAME}.md"
+          if [ -f "$notes_file" ]; then
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "k79-agent-skills ${GITHUB_REF_NAME}" --notes-file "$notes_file"
+          else
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "k79-agent-skills ${GITHUB_REF_NAME}" --generate-notes
+          fi
