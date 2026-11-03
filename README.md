@@ -16,7 +16,7 @@ Copy this into your coding agent inside **any new or existing project repository
 Bootstrap and align this project with my Engineering Skills repository (AbdulWadudh/k79-agent-skills):
 
 1. Install or Update Global Skills:
-   - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y`
+   - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y`
      (use `npx skills@latest add ...` if Bun is unavailable; add `--copy` on Windows if linking fails).
    - Verify all 8 `k79-*` skills appear in `~/.agents/skills/`.
    - Report the installed suite version from `~/.agents/skills/k79-master-engineering/VERSION`.
@@ -112,12 +112,14 @@ k79-agent-skills/
 Requires **Node.js 22.20+**.
 
 ```bash
-# OpenCode + Claude Code (recommended: name the agents you actually use)
-bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y
+# All supported agents
+bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
 
 # Node equivalent
-npx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y
+npx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
 ```
+
+`--agent '*'` installs for every supported agent. To limit it, name agents instead: `-a opencode`, `-a claude-code`, or several `-a` flags. `--all` is shorthand for all skills and all agents.
 
 Preview what the repo exposes without installing:
 
@@ -204,10 +206,12 @@ The `k79-master-engineering` skill handles this with a strict approval gate:
 3. If versions differ, shows current version, latest version, and release notes — then **stops for your approval**.
 4. On approval, reinstalls the suite and refreshes agent links:
    ```bash
-   bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y
+   bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
    ```
    (Use `npx skills@latest ...` if Bun is unavailable.)
 5. Verifies the installed `VERSION` and re-syncs the project `AGENTS.md` router block without touching project-specific content.
+
+Re-running the install command also updates in place: `skills add` reads the latest default branch. A separate update step is optional.
 
 Manual update (no version comparison):
 

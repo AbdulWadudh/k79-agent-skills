@@ -35,7 +35,7 @@ installed. For PowerShell, use `$env:USERPROFILE` instead of `$HOME`.
 
 ## OpenCode
 
-Copy [`opencode-reminder.ts`](./opencode-reminder.ts) to one of:
+Copy [`opencode-reminder.js`](./opencode-reminder.js) to one of:
 
 - `~/.config/opencode/plugins/` for every project
 - `.opencode/plugins/` for a single project

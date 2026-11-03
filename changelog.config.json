@@ -6,6 +6,6 @@
     "`bun run validate` — skill names, frontmatter, references, and version markers.",
     "`bun run changelog:check` — entry schema and generated changelog freshness."
   ],
-  "install": "```bash\nbunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y\n```\n\nUse `npx skills@latest add ...` when Bun is unavailable, and append `--copy` on Windows if linking fails.",
-  "update": "Tell your agent: `update k79-agent-skills`. It compares the installed version with this release and waits for approval before updating."
+  "install": "```bash\nbunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y\n```\n\n`--agent '*'` installs for every supported agent. To target one agent, use `-a opencode` or `-a claude-code`. Use `npx skills@latest add ...` when Bun is unavailable, and append `--copy` on Windows if linking fails.",
+  "update": "Re-run the install command to update. `skills add` reads the latest default branch, so a separate update step is optional. For a hash-based refresh, run `bunx skills@latest update -g -y` (all global skills) or pass the eight `k79-*` names to update only the suite."
 }

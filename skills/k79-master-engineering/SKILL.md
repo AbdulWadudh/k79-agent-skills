@@ -18,7 +18,7 @@ Follow this strict sequential lifecycle for every task. Load the required modula
 - **Latest version:** Run `gh api repos/AbdulWadudh/k79-agent-skills/releases/latest --jq .tag_name`. Fallback: `curl -fsSL https://raw.githubusercontent.com/AbdulWadudh/k79-agent-skills/main/VERSION`.
 - **Same version:** Report "already on the latest suite version" and stop.
 - **Newer version:** Show the current version, latest version, and release notes. **STOP for explicit approval.**
-- **On approval:** Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y` (drop agents you do not use; use `npx` without Bun; add `--copy` if Windows linking fails). Verify `VERSION`, then re-sync the router block without deleting project content.
+- **On approval:** Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y` (use `npx` without Bun; add `--copy` if Windows linking fails). Verify `VERSION`, then re-sync the router block without deleting project content.
 - **Never** update without approval or touch unrelated skills.
 
 ## Phase 1: Specification & Blast-Radius Lock (Before Coding)

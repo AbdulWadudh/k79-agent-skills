@@ -29,7 +29,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
 3. **Self-Update Protocol ("update k79-agent-skills"):**
    - Compare the installed `VERSION` with the latest GitHub Release.
    - Show current, latest, and the release notes. **STOP for explicit approval.**
-   - On approval, reinstall with `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y`, verify `VERSION`, and re-sync this block.
+   - On approval, reinstall with `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y`, verify `VERSION`, and re-sync this block.
    - Never update without approval or touch unrelated skills.
 
 4. **Instruction Files Are Context, Not Enforcement:** `AGENTS.md` (and its shims) guides the agent; it cannot block an action. If a rule must be guaranteed, back it with CI or an agent hook.

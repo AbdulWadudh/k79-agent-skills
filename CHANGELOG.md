@@ -6,7 +6,13 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-_No unreleased changes._
+### Changed
+
+- Use an agent-agnostic install command and document updates ([details](changelog/2026/11/2026-11-03-agent-agnostic-install.md))
+
+### Fixed
+
+- Ship the OpenCode reminder as plain JavaScript ([details](changelog/2026/11/2026-11-03-opencode-reminder-js.md))
 
 ## [0.4.0] - 2026-11-03
 
