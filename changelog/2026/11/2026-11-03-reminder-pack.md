@@ -3,8 +3,8 @@ title: "Add a short reminder pack that survives context compaction"
 date: "2026-11-03"
 type: added
 scope: "skills/k79-master-engineering/, README.md"
-version: ""
-released: ""
+version: "0.4.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---
