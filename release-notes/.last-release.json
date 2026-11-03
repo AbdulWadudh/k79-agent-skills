@@ -1,7 +1,7 @@
 {
-  "version": "2.4.0",
-  "tag": "v2.4.0",
-  "generatedAt": "2026-11-03T20:04:18.188Z",
+  "version": "2.4.1",
+  "tag": "v2.4.1",
+  "generatedAt": "2026-11-03T20:06:09.064Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -78,6 +78,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-local-release-publishing.md",
       "sha256": "25c14dd9905380651fbbbb639274ba7c4c193bde2ca8eb629a7f9699b097c9c2"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-prompt-craft-handoff.md",
+      "sha256": "512d9a1c498ad26e0fe0b59c464f9bf7344fc73b3f4b5f59ebb95e6327583e23"
     },
     {
       "path": "changelog/2026/11/2026-11-04-prompt-craft-skill.md",

@@ -3,8 +3,8 @@ title: "Add a handoff question after prompt generation"
 date: "2026-11-04"
 type: changed
 scope: "skills/k79-prompt-craft, skills/k79-conductor, README.md"
-version: ""
-released: ""
+version: "2.4.1"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---
