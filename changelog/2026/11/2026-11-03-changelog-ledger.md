@@ -3,8 +3,8 @@ title: "Add a folder-per-change changelog ledger with generated release notes"
 date: "2026-11-03"
 type: added
 scope: "changelog/, scripts/changelog.mjs, scripts/release.mjs, CHANGELOG.md"
-version: ""
-released: ""
+version: "0.2.0"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---

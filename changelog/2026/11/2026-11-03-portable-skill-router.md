@@ -3,8 +3,8 @@ title: "Make the skill router portable across agents"
 date: "2026-11-03"
 type: changed
 scope: "skills/k79-master-engineering/AGENTS.router.md, README.md"
-version: ""
-released: ""
+version: "0.2.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

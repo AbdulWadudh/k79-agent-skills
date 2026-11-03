@@ -3,7 +3,7 @@ name: k79-verification-testing
 description: Mandatory verification protocol, mirrored tests/ directory structure, anti-mocking rules, adversarial/breaking edge-case testing, and spec acceptance checking. Load before writing tests or marking any coding task complete.
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 

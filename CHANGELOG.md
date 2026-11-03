@@ -6,6 +6,10 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+_No unreleased changes._
+
+## [0.2.0] - 2026-11-03
+
 ### Added
 
 - Add a folder-per-change changelog ledger with generated release notes ([details](changelog/2026/11/2026-11-03-changelog-ledger.md))
@@ -14,6 +18,8 @@ This project follows [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Make the skill router portable across agents ([details](changelog/2026/11/2026-11-03-portable-skill-router.md))
+
+[Full release notes](./release-notes/v0.2.0.md)
 
 ## [0.1.0] - 2026-11-03
 
