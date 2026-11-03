@@ -3,8 +3,8 @@ title: "Give the local gh publish a head start over the fallback workflow"
 date: "2026-11-04"
 type: changed
 scope: ".github/workflows/release.yml, README.md"
-version: ""
-released: ""
+version: "2.2.1"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---
