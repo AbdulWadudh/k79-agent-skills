@@ -3,8 +3,8 @@ title: "Add k79-prompt-craft for turning vague requests into precise prompts"
 date: "2026-11-04"
 type: added
 scope: "skills/k79-prompt-craft, skills/k79-conductor, README.md, AGENTS.md"
-version: ""
-released: ""
+version: "2.4.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

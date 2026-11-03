@@ -3,7 +3,7 @@ name: k79-logging-errors-git
 description: Mandatory rules for boundary error handling, structured contextual logging (what/when/why), logical atomic Git commits without AI attribution, and changelog/release-note maintenance with one file per change. Load when handling errors, adding logs, creating Git commits, or preparing a release.
 license: MIT
 metadata:
-  version: "2.3.0"
+  version: "2.4.0"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 
