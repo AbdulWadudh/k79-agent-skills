@@ -63,6 +63,13 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
    - Do not overwrite or migrate an existing ledger without asking.
 
 5. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
+
+6. Optional efficiency skills (ask me first, never auto-install):
+   - Check for skills named `caveman` and `ponytail`. If one is missing, ask me once whether to install it globally:
+     `bunx skills@latest add JuliusBrussee/caveman -g -y`
+     `bunx skills@latest add DietrichGebert/ponytail -g -y`
+   - Run neither command unless I answer yes. If I decline, do not ask again this session.
+   - If installed, follow them: `caveman` for chat prose, `ponytail` for diff size. Every k79 rule wins a conflict, and neither skill changes code, commits, changelog, or doc prose.
 ```
 
 ---
@@ -309,7 +316,22 @@ Prompts are advisory. A reminder raises adherence; it does not guarantee it. The
 
 The bootstrap prompt prepends the reminder to `AGENTS.md`. The copy-paste hooks are in [`skills/k79-conductor/hooks/README.md`](./skills/k79-conductor/hooks/README.md). They only add context; they never block a tool.
 
-Keep the reminder short. A ten-line reminder gets reread; a hundred-line one gets skimmed. When a rule matters enough to guarantee, move it to a check rather than adding more prose.
+Keep the reminder short. A nine-bullet reminder gets reread; a hundred-line one gets skimmed. When a rule matters enough to guarantee, move it to a check rather than adding more prose.
+
+---
+
+## Optional: caveman & ponytail
+
+Two third-party skills cut token cost. This suite does not ship them, does not install them, and does not depend on them.
+
+| Skill | Upstream | Owns | Installs |
+| :--- | :--- | :--- | :--- |
+| `caveman` | [`JuliusBrussee/caveman`](https://github.com/JuliusBrussee/caveman) | Chat prose only: answer first, no filler, payload verbatim | `bunx skills@latest add JuliusBrussee/caveman -g -y` |
+| `ponytail` | [`DietrichGebert/ponytail`](https://github.com/DietrichGebert/ponytail) | Diff size only: the smallest complete change, stdlib and existing code first | `bunx skills@latest add DietrichGebert/ponytail -g -y` |
+
+Both are opt-in, asked once during bootstrap and never again. If installed, one bullet in `k79-conductor` Phase 2 and the reminder tell the agent to follow them; every `k79-*` rule wins a conflict, and neither skill touches code, commits, changelog entries, or docs. See [`specs/external-skill-adoption.spec.md`](./specs/external-skill-adoption.spec.md) for the full precedence table and the one-time setup boundary.
+
+Measured effect, from an independent paired A/B benchmark: caveman −8.5% tokens, ponytail −10.3% cost. Both are smaller than advertised (caveman claimed −65%, ponytail −22% tokens), so treat them as a trim, not a transformation.
 
 ---
 

@@ -24,6 +24,7 @@ Simplicity solves 90% of engineering problems. Balance DRY and YAGNI strictly:
   - Never write code for hypothetical "future" requirements or unrequested features not in the Spec.
   - Do NOT create classes, factories, builder patterns, or generic plugin wrappers when a plain exported function works.
   - Do NOT extract a single-use 5-line block into a separate file "just in case."
+- **If the `ponytail` skill is installed, its ladder is the tie-breaker:** skip what nobody asked for, reuse the codebase, the standard library, or an installed dependency before writing new code. It refines this section; it never overrides the spec gate, the 250-line cap, the 1:2 test ratio, security, or `@quirk:` shields. Not installed? Never install it yourself — offer once and wait.
 - **Minimum Viable Diff:** When editing existing files, touch the minimum lines required. Never refactor unrelated working code in the same file.
 
 ## 3. Scientific Debugging & 2-Strike Circuit Breaker

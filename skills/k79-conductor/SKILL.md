@@ -31,6 +31,7 @@ If the request is to write a prompt, task brief, or handoff, load `k79-prompt-cr
 
 ## Phase 2: Architecture, Naming, Config & Implementation (During Coding)
 Load only the skills matching the files you are touching:
+- **Optional `caveman` / `ponytail`, if installed:** `caveman` owns chat prose, `ponytail` owns diff size. `k79-*` wins every conflict — the spec gate, size caps, naming, 1:2 tests, `@quirk:` shields, security, and every persisted artifact stay under k79 rules and normal prose. Installing either is a one-time bootstrap step, never a task step.
 - **Always Load for Coding/Debugging:** `k79-evidence-and-simplicity`
   - Enforce zero assumptions (verify types/schemas first), Rule of 2+ DRY extraction (`call<Provider>Api`), zero speculative overengineering (YAGNI), and the **2-strike debugging circuit breaker**.
 - **Always Load When Creating, Naming, Splitting, or Refactoring Files (Any Language):** `k79-code-structure`

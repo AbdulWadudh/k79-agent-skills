@@ -18,6 +18,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
    - **Evidence & Simplicity:** Zero unverified assumptions. Deduplicate repeated boilerplate (Rule of 2+), forbid speculative overengineering (YAGNI). Stop after **2 failed fix attempts**, revert guesses, and report back with proof.
    - **Verification & Commits:** Mirror tests in top-level `tests/` (`1:2` happy-to-breaking ratio, zero mocks for `helpers/`). Only commit when explicitly asked, stage logically (`git add <files>`), and NEVER add `Co-authored-by` AI tags.
    - **Changelogs:** One entry per logical change under `changelog/YYYY/MM/`. Release notes are generated from entry diffs; there is no `CHANGELOG.md`.
+   - **Optional Efficiency Skills:** If `caveman` or `ponytail` are installed, follow them — `caveman` owns chat prose, `ponytail` owns diff size. `k79-*` wins every conflict, and neither skill touches code, commits, changelog, or docs prose. Never install them without an explicit yes.
 
 3. **Self-Update Protocol ("update k79-agent-skills"):**
    - Detect the installed scope: `<project>/.agents/skills` first, then `~/.agents/skills`.
