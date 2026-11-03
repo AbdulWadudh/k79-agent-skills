@@ -1,7 +1,7 @@
 {
-  "version": "2.2.1",
-  "tag": "v2.2.1",
-  "generatedAt": "2026-11-03T19:48:38.845Z",
+  "version": "2.3.0",
+  "tag": "v2.3.0",
+  "generatedAt": "2026-11-03T19:54:18.791Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -66,6 +66,10 @@
     {
       "path": "changelog/2026/11/2026-11-03-trim-update-protocol.md",
       "sha256": "d482b87beda80011c65814dc1142fcf32da0a635c3ba40c64fbea039c8fea876"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-fallback-branch-trigger.md",
+      "sha256": "33e5e4d4dc31f4f85f283a3eb38c20866455083a2f7c9e67c4c0cfb45f721dcf"
     },
     {
       "path": "changelog/2026/11/2026-11-04-fallback-head-start.md",

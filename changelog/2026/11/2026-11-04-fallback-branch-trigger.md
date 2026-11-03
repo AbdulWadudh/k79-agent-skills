@@ -3,8 +3,8 @@ title: "Trigger the release fallback only when local gh fails"
 date: "2026-11-04"
 type: changed
 scope: ".github/workflows/release.yml, scripts/release.mjs, README.md, skills/k79-logging-errors-git"
-version: ""
-released: ""
+version: "2.3.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---
