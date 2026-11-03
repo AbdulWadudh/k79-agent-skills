@@ -18,7 +18,7 @@ Add this alongside any existing hooks in `~/.claude/settings.json` (user scope) 
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$HOME/.agents/skills/k79-master-engineering/hooks/k79-reminder.mjs\""
+            "command": "node \"$HOME/.agents/skills/k79-conductor/hooks/k79-reminder.mjs\""
           }
         ]
       }

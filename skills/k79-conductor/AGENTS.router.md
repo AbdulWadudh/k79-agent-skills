@@ -10,7 +10,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
 3. `~/.claude/skills/`
 4. `~/.config/opencode/skills/`
 
-1. **Master Workflow Entrypoint:** Load `k79-master-engineering` first, or the specific domain skill(s) triggered by the task at hand:
+1. **Workflow Entrypoint:** Load `k79-conductor` first, or the specific domain skill(s) triggered by the task at hand:
    - **Planning, Features & `@quirk` Workarounds:** `k79-spec-driven`
    - **Creating/Splitting Files (>220L), Naming Conventions & Imports (Any Language):** `k79-code-structure`
    - **Debugging, Exploring & Extracting Shared Logic:** `k79-evidence-and-simplicity`
@@ -27,9 +27,10 @@ You are strictly bound by our modular `k79-*` engineering skills.
    - **Changelogs:** One entry per logical change under `changelog/YYYY/MM/`. `CHANGELOG.md` and `release-notes/` are generated from those entries, never hand-maintained.
 
 3. **Self-Update Protocol ("update k79-agent-skills"):**
+   - Detect the installed scope: `<project>/.agents/skills` first, then `~/.agents/skills`.
    - Compare the installed `VERSION` with the latest GitHub Release.
    - Show current, latest, and the release notes. **STOP for explicit approval.**
-   - On approval, reinstall with `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y`, verify `VERSION`, and re-sync this block.
+   - On approval, reinstall the same scope: project `bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y`; global add `-g`. Verify `VERSION`, then re-sync this block.
    - Never update without approval or touch unrelated skills.
 
 4. **Instruction Files Are Context, Not Enforcement:** `AGENTS.md` (and its shims) guides the agent; it cannot block an action. If a rule must be guaranteed, back it with CI or an agent hook.

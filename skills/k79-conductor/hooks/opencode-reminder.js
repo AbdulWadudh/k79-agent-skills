@@ -13,8 +13,8 @@ import { join } from 'node:path';
 
 function reminder() {
   const candidates = [
-    join(homedir(), '.agents', 'skills', 'k79-master-engineering', 'K79.reminder.md'),
-    join(process.cwd(), '.agents', 'skills', 'k79-master-engineering', 'K79.reminder.md'),
+    join(homedir(), '.agents', 'skills', 'k79-conductor', 'K79.reminder.md'),
+    join(process.cwd(), '.agents', 'skills', 'k79-conductor', 'K79.reminder.md'),
     join(process.cwd(), 'K79.reminder.md'),
   ];
   const file = candidates.find((candidate) => existsSync(candidate));

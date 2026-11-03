@@ -15,27 +15,29 @@ Copy this into your coding agent inside **any new or existing project repository
 ```text
 Bootstrap and align this project with my Engineering Skills repository (AbdulWadudh/k79-agent-skills):
 
-1. Install or Update Global Skills:
-   - Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y`
-     (use `npx skills@latest add ...` if Bun is unavailable; add `--copy` on Windows if linking fails).
-   - `--agent '*'` installs for every supported agent. Name agents only to narrow it (`-a opencode`, `-a claude-code`).
-   - Re-running this command updates in place. `bunx skills@latest update -g -y` is the hash-based alternative.
-   - Verify all 8 `k79-*` skills appear in `~/.agents/skills/`.
-   - Report the installed suite version from `~/.agents/skills/k79-master-engineering/VERSION`.
+1. Choose the install scope (ASK ME BEFORE INSTALLING):
+   - Global: one copy in `~/.agents/skills/`, available in every repo, updated once.
+   - Project: one copy in `<repo>/.agents/skills/`, pinned to this repo, optionally committed.
+   - Do not install until I answer.
+   - Global: `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y`
+   - Project: `bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y` (run from the repo root)
+   - `--agent '*'` installs for every supported agent. Narrow with `-a opencode` only if I ask.
+   - Re-running the same command updates in place. `bunx skills@latest update -g -y` or `-p -y` is the hash-based alternative.
+   - Verify all 8 `k79-*` skills in the chosen scope and report the installed `VERSION`.
 
 2. Read the Constitution:
-   - Load the `k79-master-engineering` skill, then read its `SKILL.md` and `AGENTS.router.md` from the installed skills directory.
+   - Load the `k79-conductor` skill, then read its `SKILL.md` and `AGENTS.router.md` from the installed skills directory.
 
 3. Project Instruction Files (write once, shim everywhere):
    - PRIMARY: `AGENTS.md` at the repo root.
-     - If NO `AGENTS.md` exists: create it starting with the contents of `k79-master-engineering/K79.reminder.md`, then the router block from `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
+     - If NO `AGENTS.md` exists: create it starting with the contents of `k79-conductor/K79.reminder.md`, then the router block from `k79-conductor/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
      - If `AGENTS.md` ALREADY exists: PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks. MERGE the reminder and Skill Router block cleanly at the top, and align only the generic rules that directly contradict the constitution. Show me a summary of the changes.
    - SHIMS: never duplicate the router body. Add a pointer only where an agent does not read `AGENTS.md` directly:
      - Claude Code: if a `CLAUDE.md` or `CLAUDE.local.md` already exists in the project, prepend `@AGENTS.md` to it. Do not create `CLAUDE.md` when the repo has none - Claude Code reads `AGENTS.md` natively since v2.1.277.
      - Gemini CLI: if no `GEMINI.md` exists, create one containing `@AGENTS.md`.
      - GitHub Copilot: if `.github/copilot-instructions.md` exists, add a one-line pointer to `AGENTS.md`.
      - Aider: if `.aider.conf.yml` exists, add `read: AGENTS.md`.
-   - OPTIONAL REMINDERS: `AGENTS.md` already covers every agent. For harnesses with hook APIs, `k79-master-engineering/hooks/README.md` adds re-injection (Claude Code `SessionStart`, OpenCode compaction). This is an optional extra, not a target list; the hooks only add context and never block tools.
+   - OPTIONAL REMINDERS: `AGENTS.md` already covers every agent. For harnesses with hook APIs, `k79-conductor/hooks/README.md` adds re-injection (Claude Code `SessionStart`, OpenCode compaction). This is an optional extra, not a target list; the hooks only add context and never block tools.
    - Note that instruction files are context, not enforcement. Do not claim a rule is guaranteed.
 
 4. Changelog Tooling (only if the project has no changelog system):
@@ -52,11 +54,11 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
 
 Coding agents routinely fail in production codebases due to predictable LLM anti-patterns: context pollution, hallucinated requirements, 1,500-line God files, vague variable naming (`data`, `temp`), circular barrel imports, speculative overengineering, happy-path-only tests, and bulk Git commits.
 
-This repository solves those failure modes through **1 Master Workflow Orchestrator** and **7 Modular Domain Skills**, all namespaced with `k79-` to prevent collisions in global skill directories:
+This repository solves those failure modes through **1 Conductor** and **7 Modular Domain Skills**, all namespaced with `k79-` to prevent collisions in global skill directories:
 
 | Skill | What Problem It Solves | Core Enforcement |
 | :--- | :--- | :--- |
-| **`k79-master-engineering`** | **Skill Sprawl & Attention Dilution:** Agents forget rules when dumped into one giant prompt. | Routes the agent through 4 strict phases (Spec -> Code -> Verify -> Commit), loading only the specific `k79-*` skills needed for the active task. Also owns the approval-gated suite update protocol. |
+| **`k79-conductor`** | **Skill Sprawl & Attention Dilution:** Agents forget rules when dumped into one giant prompt. | Routes the agent through 4 strict phases (Spec -> Code -> Verify -> Commit), loading only the specific `k79-*` skills needed for the active task. Also owns the approval-gated suite update protocol. |
 | **`k79-spec-driven`** | **Hallucinated Scope & Broken Workarounds:** Agents jump straight into coding, break contracts, touch unrelated files, or refactor away intentional hacks. | Enforces a pre-code `<feature>.spec.md` approval gate, locks the allowed file blast radius, scales specs >250L into `specs/`, and protects deliberate hacks via `// @quirk:` shields. |
 | **`k79-code-structure`** | **God Files, Directory Bloat, Bad Naming & Circular Imports:** Monolithic services, barrel loops, and vague names (`data`, `handle()`) across any language. | Enforces a 250L target (300L max) per file, max 8 files/folder, zero feature barrel files, backend (`actions/helpers/queries/api`) & frontend (`components/hooks`) DAG separation, strict naming rules, and compiler-guided refactoring. |
 | **`k79-evidence-and-simplicity`** | **Assumptions, Overengineering & Debug Loops:** Agents guessing schemas, building unnecessary classes/wrappers, and looping on failed fixes. | Demands verifiable proof before coding, enforces the Rule of 2+ for DRY extraction, bans speculative YAGNI abstractions, and triggers a 2-strike debugging circuit breaker. |
@@ -90,7 +92,7 @@ k79-agent-skills/
 │   ├── validate.yml                         # CI validation on push / PR
 │   └── release.yml                          # Publishes a GitHub Release on v* tags
 └── skills/
-    ├── k79-master-engineering/
+    ├── k79-conductor/
     │   ├── SKILL.md                         # Phase-gated workflow + update protocol
     │   ├── AGENTS.router.md                 # Router block merged into project AGENTS.md
     │   ├── K79.reminder.md                  # Ten-line reminder prepended to AGENTS.md
@@ -109,19 +111,34 @@ k79-agent-skills/
 
 ---
 
-## Install (Global)
+## Install
 
 Requires **Node.js 22.20+**.
 
-```bash
-# All supported agents
-bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
+Pick the scope first. Neither is the default; they solve different problems.
 
-# Node equivalent
-npx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
+| Scope | Location | Use when |
+| :--- | :--- | :--- |
+| **Global** | `~/.agents/skills/` | One personal copy in every repo, updated once |
+| **Project** | `<repo>/.agents/skills/` | The repo pins and reproduces the version, and can commit it |
+
+### Global
+
+```bash
+bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
 ```
 
-`--agent '*'` installs for every supported agent. To limit it, name agents instead: `-a opencode`, `-a claude-code`, or several `-a` flags. `--all` is shorthand for all skills and all agents.
+### Project
+
+Run from the repository root:
+
+```bash
+bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y
+```
+
+Project scope leaves `~/.agents/skills/` untouched. Commit `.agents/skills/` if teammates and CI should use the same version; ignore it if it is only for you.
+
+`--agent '*'` installs for every supported agent. Narrow it with `-a opencode` or `-a claude-code`; `--all` is shorthand for all skills and all agents. When both scopes exist, the project copy wins because it is first in the router's resolution order.
 
 Preview what the repo exposes without installing:
 
@@ -165,24 +182,21 @@ bunx skills@latest ls -g --json | jq length
 Install for a single agent only:
 
 ```bash
+# Global, one agent
 bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -y
-```
 
-Install into the current project instead of globally:
-
-```bash
+# Project, one agent
 bunx skills@latest add AbdulWadudh/k79-agent-skills -a opencode -y
 ```
 
-### Where global installs land
+### Where installs land
 
-| Agent | Global skill path | How the CLI links it |
+| Scope | Canonical copy | Agent directories |
 | :--- | :--- | :--- |
-| OpenCode | `~/.agents/skills/` | Used directly (universal path OpenCode reads natively) |
-| Claude Code | `~/.claude/skills/` | Junction/symlink to `~/.agents/skills/` |
-| Most other agents | Their own `~/<agent>/skills/` | Junction/symlink to `~/.agents/skills/` |
+| Global | `~/.agents/skills/` | `~/.claude/skills/`, `~/.commandcode/skills/`, and other `~/<agent>/skills/` links |
+| Project | `<repo>/.agents/skills/` | `.claude/skills/` and other agent directories inside the repo |
 
-`~/.agents/skills/` is the canonical copy; agent directories link back to it so updates happen once.
+The canonical copy is the single source; agent directories link back to it so updates happen once.
 
 **Windows note:** the CLI creates directory junctions by default, which normally works without Developer Mode. If your setup blocks links, append `--copy` (copies files into each agent directory instead).
 
@@ -196,9 +210,9 @@ Tell your agent:
 update k79-agent-skills
 ```
 
-The `k79-master-engineering` skill handles this with a strict approval gate:
+The `k79-conductor` skill handles this with a strict approval gate:
 
-1. Reads the installed version from `~/.agents/skills/k79-master-engineering/VERSION` (fallback: `metadata.version`).
+1. Detects the scope: project copy first (`<repo>/.agents/skills/k79-conductor/VERSION`), then global (`~/.agents/skills/k79-conductor/VERSION`). If both exist, the project copy is the one to update.
 2. Looks up the latest release:
    ```bash
    gh api repos/AbdulWadudh/k79-agent-skills/releases/latest --jq .tag_name
@@ -206,8 +220,12 @@ The `k79-master-engineering` skill handles this with a strict approval gate:
    curl -fsSL https://raw.githubusercontent.com/AbdulWadudh/k79-agent-skills/main/VERSION
    ```
 3. If versions differ, shows current version, latest version, and release notes — then **stops for your approval**.
-4. On approval, reinstalls the suite and refreshes agent links:
+4. On approval, reinstalls the same scope:
    ```bash
+   # Project (from the repo root)
+   bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y
+
+   # Global
    bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y
    ```
    (Use `npx skills@latest ...` if Bun is unavailable.)
@@ -219,7 +237,7 @@ Manual update (no version comparison):
 
 ```bash
 # Refresh only the k79 skills (leaves other global skills alone)
-bunx skills@latest update k79-master-engineering k79-spec-driven k79-code-structure k79-evidence-and-simplicity k79-config-and-security k79-performance-and-db k79-verification-testing k79-logging-errors-git -g -y
+bunx skills@latest update k79-conductor k79-spec-driven k79-code-structure k79-evidence-and-simplicity k79-config-and-security k79-performance-and-db k79-verification-testing k79-logging-errors-git -g -y
 
 # Or refresh every global skill
 bunx skills@latest update -g -y
@@ -257,29 +275,30 @@ Prompts are advisory. A reminder raises adherence; it does not guarantee it. The
 
 | Reminder | Where it lives | Coverage |
 | :--- | :--- | :--- |
-| [`K79.reminder.md`](./skills/k79-master-engineering/K79.reminder.md) | Top of the project's `AGENTS.md` | Every agent that reads `AGENTS.md` or a shim |
+| [`K79.reminder.md`](./skills/k79-conductor/K79.reminder.md) | Top of the project's `AGENTS.md` | Every agent that reads `AGENTS.md` or a shim |
 | Skill descriptions | The agent's skill list, shown every session | Every agent with skills support |
 | Session hooks | Claude Code `SessionStart`, OpenCode compaction | Only harnesses with hook APIs; optional |
 
-The bootstrap prompt prepends the reminder to `AGENTS.md`. The copy-paste hooks are in [`skills/k79-master-engineering/hooks/README.md`](./skills/k79-master-engineering/hooks/README.md). They only add context; they never block a tool.
+The bootstrap prompt prepends the reminder to `AGENTS.md`. The copy-paste hooks are in [`skills/k79-conductor/hooks/README.md`](./skills/k79-conductor/hooks/README.md). They only add context; they never block a tool.
 
 Keep the reminder short. A ten-line reminder gets reread; a hundred-line one gets skimmed. When a rule matters enough to guarantee, move it to a check rather than adding more prose.
 
 ---
 
-## Does Global Install Work as Expected?
+## Does Installation Work as Expected?
 
-**Yes — with the caveats below.** This was verified against the `skills` CLI (v1.7.6) on Windows:
+**Yes, for both scopes.** Verified against the `skills` CLI on Windows:
 
-- Global install writes all 8 skills to `~/.agents/skills/`, which OpenCode reads natively.
-- Claude Code gets junctions under `~/.claude/skills/`; other supported agents get their own links.
-- Skill names and directories now match (`k79-spec-driven/SKILL.md` -> `name: k79-spec-driven`), so the namespacing and every router path resolve correctly.
-- The CLI copies additional files in each skill directory, including `VERSION` and `AGENTS.router.md`.
+- Global install writes all 8 skills to `~/.agents/skills/`; project install writes them to `<repo>/.agents/skills/`.
+- Agent directories link back to the canonical copy; OpenCode reads the universal path directly.
+- Skill names and directories match (`k79-spec-driven/SKILL.md` -> `name: k79-spec-driven`), so namespacing and every router path resolve.
+- The CLI copies additional files in each skill directory, including `VERSION`, `AGENTS.router.md`, `K79.reminder.md`, and `hooks/`.
+- When both scopes exist, the project copy wins in the router's resolution order.
 
-What global install **does not** do:
+What installation **does not** do:
 
 - It does not modify any project's `AGENTS.md`. The router is loaded only after you run the bootstrap prompt above (or merge `AGENTS.router.md` yourself).
-- It does not pin to a tag; updates follow the default branch. The `VERSION` marker is what makes version comparison meaningful.
+- It does not pin to a tag; `add` follows the default branch. The `VERSION` marker is what makes version comparison meaningful.
 - It does not update itself on a schedule. The agent only checks when you say "update k79-agent-skills".
 - It requires Node 22.20+. Older Node versions fail before installation starts.
 
@@ -287,7 +306,7 @@ Other things to know:
 
 - On Windows, if junction creation is blocked, re-run with `--copy`.
 - Skills are instructions with full agent permissions. Review `SKILL.md` files before installing, like any third-party skill.
-- `--all` installs to every supported agent and creates a lot of links; prefer naming agents with `-a`.
+- `--all` installs to every supported agent and creates a lot of links; prefer naming agents with `-a` when you do not need all of them.
 
 ---
 
@@ -299,7 +318,7 @@ Inside a bootstrapped project, say:
 update k79-agent-skills
 ```
 
-The agent reports current vs latest version, waits for approval, updates the global skills, then refreshes the router block in `AGENTS.md`. If you only want the project router refreshed, ask it to "re-sync the k79 router block" and it will skip reinstalling.
+The agent reports current vs latest version, waits for approval, updates the installed scope (project or global), then refreshes the router block in `AGENTS.md`. If you only want the project router refreshed, ask it to "re-sync the k79 router block" and it will skip reinstalling.
 
 ---
 
@@ -342,7 +361,7 @@ Then add the two package scripts and a CI check. An optional `changelog.config.j
 This repo uses **Semantic Versioning** and annotated Git tags. `VERSION` is the source of truth; `scripts/release.mjs` keeps all markers in sync. The scripts are plain `.mjs` with zero dependencies, so they run identically under **Bun (default)** or **Node**:
 
 - root `VERSION`
-- `skills/k79-master-engineering/VERSION`
+- `skills/k79-conductor/VERSION`
 - `package.json` `version`
 - `metadata.version` in every `SKILL.md`
 - stamped `version` in `changelog/**`
@@ -403,7 +422,7 @@ After that, use `bun run release patch` (or `minor` / `major`) for every subsequ
 - `description` is present and at most 1024 characters.
 - `metadata.version` matches root `VERSION` for every skill.
 - The installed `VERSION` marker matches the suite version.
-- Every `k79-*/SKILL.md` reference in the master skill and router file resolves.
+- Every `k79-*/SKILL.md` reference in the conductor skill and router file resolves.
 - Skill names are unique.
 - Every changelog entry has a valid path, date, type, scope, title, and body.
 - `CHANGELOG.md` matches the generated output from `changelog/`.

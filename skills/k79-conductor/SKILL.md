@@ -1,24 +1,25 @@
 ---
-name: k79-master-engineering
-description: Master orchestrator and workflow router that coordinates the 7 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
+name: k79-conductor
+description: Conductor and workflow router that coordinates the 7 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
 license: MIT
 metadata:
   version: "0.4.1"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 
-# Master Engineering Workflow & Skill Orchestrator (k79 Suite)
+# Engineering Workflow & Skill Conductor (k79 Suite)
 
 Follow this strict sequential lifecycle for every task. Load the required modular skill(s) **by name** with your skill tool before executing each phase. If your agent has no skill loader, read `SKILL.md` from the first existing directory: `<project>/.agents/skills/`, `~/.agents/skills/`, `~/.claude/skills/`, or `~/.config/opencode/skills/`.
 
 > **Suite version:** see `VERSION` next to this file (also `metadata.version` above).
 
 ## Phase 0: Suite Update (Only on "update k79-agent-skills")
-- **Current version:** Read `VERSION` next to this file (fallback: `metadata.version` above).
+- **Scope:** Check `<project>/.agents/skills/k79-conductor` first, then `~/.agents/skills/k79-conductor`. If both exist, update the project copy.
+- **Current version:** Read `VERSION` from the installed scope (fallback: `metadata.version` above).
 - **Latest version:** Run `gh api repos/AbdulWadudh/k79-agent-skills/releases/latest --jq .tag_name`. Fallback: `curl -fsSL https://raw.githubusercontent.com/AbdulWadudh/k79-agent-skills/main/VERSION`.
 - **Same version:** Report "already on the latest suite version" and stop.
 - **Newer version:** Show the current version, latest version, and release notes. **STOP for explicit approval.**
-- **On approval:** Run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y` (use `npx` without Bun; add `--copy` if Windows linking fails). Verify `VERSION`, then re-sync the router block without deleting project content.
+- **On approval:** Reinstall the same scope. Project (from the repo root): `bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y`. Global: add `-g`. Verify `VERSION`, then re-sync the router block without deleting project content.
 - **Never** update without approval or touch unrelated skills.
 
 ## Phase 1: Specification & Blast-Radius Lock (Before Coding)

@@ -169,19 +169,19 @@ for (const directoryName of skillDirectories) {
   }
 
   const ownVersionFile = join(skillsRoot, directoryName, 'VERSION');
-  if (directoryName === 'k79-master-engineering') {
+  if (directoryName === 'k79-conductor') {
     checkVersionFile(ownVersionFile, suiteVersion, label);
   } else if (existsSync(ownVersionFile)) {
     checkVersionFile(ownVersionFile, suiteVersion, label);
   }
 }
 
-const masterSkillFile = join(skillsRoot, 'k79-master-engineering', 'SKILL.md');
-const routerFile = join(skillsRoot, 'k79-master-engineering', 'AGENTS.router.md');
+const conductorSkillFile = join(skillsRoot, 'k79-conductor', 'SKILL.md');
+const routerFile = join(skillsRoot, 'k79-conductor', 'AGENTS.router.md');
 
 for (const [label, filePath] of [
-  ['k79-master-engineering/SKILL.md', masterSkillFile],
-  ['k79-master-engineering/AGENTS.router.md', routerFile],
+  ['k79-conductor/SKILL.md', conductorSkillFile],
+  ['k79-conductor/AGENTS.router.md', routerFile],
 ]) {
   if (!existsSync(filePath)) {
     fail(`${label}: file is missing`);

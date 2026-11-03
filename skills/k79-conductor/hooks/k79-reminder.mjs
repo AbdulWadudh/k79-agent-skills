@@ -14,8 +14,8 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const candidates = [
   join(here, '..', 'K79.reminder.md'),
-  join(homedir(), '.agents', 'skills', 'k79-master-engineering', 'K79.reminder.md'),
-  join(process.cwd(), '.agents', 'skills', 'k79-master-engineering', 'K79.reminder.md'),
+  join(homedir(), '.agents', 'skills', 'k79-conductor', 'K79.reminder.md'),
+  join(process.cwd(), '.agents', 'skills', 'k79-conductor', 'K79.reminder.md'),
   join(process.cwd(), 'K79.reminder.md'),
 ];
 

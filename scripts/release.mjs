@@ -32,7 +32,7 @@ const changelogScript = join(repoRoot, 'scripts', 'changelog.mjs');
 const changelogRoot = join(repoRoot, 'changelog');
 const releaseNotesFile = (tag) => join(repoRoot, 'release-notes', `${tag}.md`);
 const packageFile = join(repoRoot, 'package.json');
-const masterVersionFile = join(skillsRoot, 'k79-master-engineering', 'VERSION');
+const conductorVersionFile = join(skillsRoot, 'k79-conductor', 'VERSION');
 const semverPattern = /^\d+\.\d+\.\d+$/;
 
 const args = process.argv.slice(2);
@@ -193,7 +193,7 @@ const changedFiles = [
   'VERSION',
   'CHANGELOG.md',
   'package.json',
-  'skills/k79-master-engineering/VERSION',
+  'skills/k79-conductor/VERSION',
   ...skillFiles.map((filePath) => relative(repoRoot, filePath).split(sep).join('/')),
   'changelog',
   `release-notes/${tag}.md`,
@@ -222,7 +222,7 @@ execFileSync(
 );
 
 writeFileSync(versionFile, `${nextVersion}\n`, 'utf8');
-writeFileSync(masterVersionFile, `${nextVersion}\n`, 'utf8');
+writeFileSync(conductorVersionFile, `${nextVersion}\n`, 'utf8');
 
 if (existsSync(packageFile)) {
   const packageJson = JSON.parse(readText(packageFile));
