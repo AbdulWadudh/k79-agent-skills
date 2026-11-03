@@ -188,10 +188,14 @@ for (const [label, filePath] of [
     continue;
   }
 
-  const references = readText(filePath).matchAll(/(k79-[a-z0-9-]+)\/SKILL\.md/g);
-  for (const match of new Set([...references].map((item) => item[1]))) {
+  const text = readText(filePath);
+  const references = [
+    ...text.matchAll(/(k79-[a-z0-9-]+)\/SKILL\.md/g),
+    ...text.matchAll(/`(k79-[a-z0-9-]+)`/g),
+  ];
+  for (const match of new Set(references.map((item) => item[1]))) {
     if (!existsSync(join(skillsRoot, match, 'SKILL.md'))) {
-      fail(`${label}: references "${match}/SKILL.md" but skills/${match} does not exist`);
+      fail(`${label}: references "${match}" but skills/${match} does not exist`);
     }
   }
 }

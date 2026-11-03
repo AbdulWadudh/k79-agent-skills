@@ -1,0 +1,11 @@
+{
+  "project": "k79-agent-skills",
+  "repository": "https://github.com/AbdulWadudh/k79-agent-skills",
+  "license": "MIT",
+  "verification": [
+    "`bun run validate` — skill names, frontmatter, references, and version markers.",
+    "`bun run changelog:check` — entry schema and generated changelog freshness."
+  ],
+  "install": "```bash\nbunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y\n```\n\nUse `npx skills@latest add ...` when Bun is unavailable, and append `--copy` on Windows if linking fails.",
+  "update": "Tell your agent: `update k79-agent-skills`. It compares the installed version with this release and waits for approval before updating."
+}

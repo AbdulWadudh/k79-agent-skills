@@ -35,7 +35,12 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
      - Aider: if `.aider.conf.yml` exists, add `read: AGENTS.md`.
    - Note that instruction files are context, not enforcement. Do not claim a rule is guaranteed.
 
-4. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
+4. Changelog Tooling (only if the project has no changelog system):
+   - Copy `scripts/changelog.mjs` from the installed `k79-logging-errors-git` skill to `<project>/scripts/changelog.mjs`.
+   - Run `node scripts/changelog.mjs --init`, then add `changelog` and `changelog:check` package scripts and a CI check.
+   - Do not overwrite or migrate an existing changelog system without asking.
+
+5. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
 ```
 
 ---
@@ -65,6 +70,7 @@ This repository solves those failure modes through **1 Master Workflow Orchestra
 k79-agent-skills/
 ├── VERSION                                  # Suite version (semver source of truth)
 ├── CHANGELOG.md                             # Generated from changelog/ — do not edit
+├── changelog.config.json                    # Project, repository, install/update text for notes
 ├── LICENSE
 ├── changelog/
 │   ├── TEMPLATE.md                          # Entry template and schema
@@ -91,7 +97,9 @@ k79-agent-skills/
     ├── k79-config-and-security/SKILL.md
     ├── k79-performance-and-db/SKILL.md
     ├── k79-verification-testing/SKILL.md
-    └── k79-logging-errors-git/SKILL.md
+    └── k79-logging-errors-git/
+        ├── SKILL.md                         # Error, logging, commit & changelog rules
+        └── scripts/changelog.mjs            # Portable generator copied into projects
 ```
 
 ---
@@ -290,6 +298,17 @@ bun run changelog:check  # fail if malformed or stale (runs in CI)
 Node fallback: `node scripts/changelog.mjs`.
 
 At release time the release script stamps every unreleased entry with the new version and date, regenerates `CHANGELOG.md`, and writes `release-notes/vX.Y.Z.md` from the same entries. Existing release notes are kept unless you pass `--force`.
+
+### Using it in another project
+
+The generator ships inside the `k79-logging-errors-git` skill, so there is nothing to publish. The bootstrap prompt copies it into the project:
+
+```bash
+cp ~/.agents/skills/k79-logging-errors-git/scripts/changelog.mjs scripts/changelog.mjs
+node scripts/changelog.mjs --init
+```
+
+Then add the two package scripts and a CI check. An optional `changelog.config.json` supplies the repository URL, license, verification commands, and install/update text used in release notes; without it, those sections are omitted.
 
 ---
 

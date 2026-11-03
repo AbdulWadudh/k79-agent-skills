@@ -75,6 +75,9 @@ highlight: true  # false keeps internal changes out of release Highlights
 ## Notes
 ```
 
+### Bundled implementation
+This skill ships a zero-dependency generator at `scripts/changelog.mjs` and a `--init` mode. Copy it into the project as `<project>/scripts/changelog.mjs`, run `node scripts/changelog.mjs --init`, then wire `changelog` and `changelog:check` into the package scripts and CI. Optional `changelog.config.json` supplies `repository`, `license`, `verification`, `install`, and `update` for the generated release notes.
+
 ### Write rules
 - **One file per logical change**, not per commit and not per release. A release is a set of entries stamped with the same version.
 - Use the date the change landed, not the release date. The path date and the `date` field must match.
@@ -92,7 +95,7 @@ highlight: true  # false keeps internal changes out of release Highlights
 4. Never reset or delete the `Unreleased` section. It is derived from entries with an empty `version`.
 
 ### Required generator behavior
-If the project has no generator, create one before writing entries by hand. It must support:
+If the project has no generator, use the bundled one rather than writing entries by hand. It must support:
 - validate (schema, path/date match, required sections)
 - generate `CHANGELOG.md` grouped by version and type
 - stamp a version onto unreleased entries

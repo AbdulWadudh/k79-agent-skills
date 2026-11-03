@@ -1,12 +1,22 @@
 # Changelog
 
 All notable changes to this project are documented here. Generated from
-[`changelog/`](./changelog) by `bun run changelog` — do not edit by hand.
+[`changelog/`](./changelog) by the changelog generator — do not edit by hand.
 This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-_No unreleased changes._
+### Added
+
+- Ship the changelog generator with the skill so other projects can adopt it ([details](changelog/2026/11/2026-11-03-portable-changelog-generator.md))
+
+### Changed
+
+- Trim the suite update protocol to its essentials ([details](changelog/2026/11/2026-11-03-trim-update-protocol.md))
+
+### Fixed
+
+- Remove the duplicate release title from generated notes ([details](changelog/2026/11/2026-11-03-release-notes-title.md))
 
 ## [0.2.0] - 2026-11-03
 

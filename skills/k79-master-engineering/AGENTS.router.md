@@ -25,10 +25,9 @@ You are strictly bound by our modular `k79-*` engineering skills.
    - **Changelogs:** One entry per logical change under `changelog/YYYY/MM/`. `CHANGELOG.md` and `release-notes/` are generated from those entries, never hand-maintained.
 
 3. **Self-Update Protocol ("update k79-agent-skills"):**
-   - Read the installed version from the `k79-master-engineering` skill directory (`VERSION`; fallback: `metadata.version` in its `SKILL.md`).
-   - Look up the latest release: `gh api repos/AbdulWadudh/k79-agent-skills/releases/latest --jq .tag_name`, or `curl -fsSL https://raw.githubusercontent.com/AbdulWadudh/k79-agent-skills/main/VERSION`.
-   - If a newer version exists, show the current version, latest version, and changelog summary. **STOP for explicit approval before updating.**
-   - On approval, run `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y` (use `npx skills@latest` if Bun is unavailable; add `--copy` if Windows symlinks fail), verify the installed `VERSION`, and re-sync this router block from `k79-master-engineering/AGENTS.router.md` while preserving all project-specific sections below it.
-   - Never update without approval and never touch unrelated skills.
+   - Compare the installed `VERSION` with the latest GitHub Release.
+   - Show current, latest, and the release notes. **STOP for explicit approval.**
+   - On approval, reinstall with `bunx skills@latest add AbdulWadudh/k79-agent-skills -g -a opencode -a claude-code -y`, verify `VERSION`, and re-sync this block.
+   - Never update without approval or touch unrelated skills.
 
 4. **Instruction Files Are Context, Not Enforcement:** `AGENTS.md` (and its shims) guides the agent; it cannot block an action. If a rule must be guaranteed, back it with CI or an agent hook.
