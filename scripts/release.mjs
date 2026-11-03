@@ -158,6 +158,12 @@ execFileSync(process.execPath, [join(repoRoot, 'scripts', 'validate-skills.mjs')
   stdio: 'inherit',
 });
 
+console.log('Checking the AGENTS.md router block...');
+execFileSync(process.execPath, [join(repoRoot, 'scripts', 'sync-agents.mjs'), '--check'], {
+  cwd: repoRoot,
+  stdio: 'inherit',
+});
+
 const releaseDate = new Date().toISOString().slice(0, 10);
 
 function readChangelogEntries() {

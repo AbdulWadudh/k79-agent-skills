@@ -1,6 +1,6 @@
 ## Engineering Constitution & Skill Router (MANDATORY)
 
-> **Reminder:** `K79.reminder.md` next to this file is the one-screen version. Read it at the start of every task and after context compaction. It is a reminder, not a restriction.
+> **Map:** the reminder at the top of this file is the only task-to-skill list. This block holds the resolution order, the non-negotiables, and the update protocol.
 
 You are strictly bound by our modular `k79-*` engineering skills.
 
@@ -10,14 +10,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
 3. `~/.claude/skills/`
 4. `~/.config/opencode/skills/`
 
-1. **Workflow Entrypoint:** Load `k79-conductor` first, or the specific domain skill(s) triggered by the task at hand:
-   - **Planning, Features & `@quirk` Workarounds:** `k79-spec-driven`
-   - **Creating/Splitting Files (>220L), Naming Conventions & Imports (Any Language):** `k79-code-structure`
-   - **Debugging, Exploring & Extracting Shared Logic:** `k79-evidence-and-simplicity`
-   - **Env Vars, `src/config/`, Auth & Caching Keys:** `k79-config-and-security`
-   - **DB Queries, Migrations, APIs, Redis & UI Speed:** `k79-performance-and-db`
-   - **Writing Tests & Verifying Completion:** `k79-verification-testing`
-   - **Error Handling, Logging, Git Commits & Changelogs:** `k79-logging-errors-git`
+1. **Workflow Entrypoint:** Load `k79-conductor` first. It owns phase order, approval gates, and routes to the seven domain skills. Load a domain skill directly only when the task is already unambiguous.
 
 2. **Core Non-Negotiables (Always Active):**
    - **Spec First:** For any new feature or contract/logic change, create/update `<feature>.spec.md` and **STOP for user approval** before editing source code. Never remove `@quirk:` code without checking the spec.
@@ -30,7 +23,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
    - Detect the installed scope: `<project>/.agents/skills` first, then `~/.agents/skills`.
    - Compare the installed `VERSION` with the latest GitHub Release.
    - Show current, latest, and the release notes. **STOP for explicit approval.**
-   - On approval, reinstall the same scope: project `bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y`; global add `-g`. Verify `VERSION`, then re-sync this block.
+   - On approval, reinstall the same scope: project `bunx skills@latest add AbdulWadudh/k79-agent-skills -y`; global add `-g`. Verify `VERSION`, then run `node scripts/sync-agents.mjs --sync` and `--check`.
    - Never update without approval or touch unrelated skills.
 
 4. **Instruction Files Are Context, Not Enforcement:** `AGENTS.md` (and its shims) guides the agent; it cannot block an action. If a rule must be guaranteed, back it with CI or an agent hook.

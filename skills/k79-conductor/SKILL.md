@@ -19,7 +19,7 @@ Follow this strict sequential lifecycle for every task. Load the required modula
 - **Latest version:** Run `gh api repos/AbdulWadudh/k79-agent-skills/releases/latest --jq .tag_name`. Fallback: `curl -fsSL https://raw.githubusercontent.com/AbdulWadudh/k79-agent-skills/main/VERSION`.
 - **Same version:** Report "already on the latest suite version" and stop.
 - **Newer version:** Show the current version, latest version, and release notes. **STOP for explicit approval.**
-- **On approval:** Reinstall the same scope. Project (from the repo root): `bunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y`. Global: add `-g`. Verify `VERSION`, then re-sync the router block without deleting project content.
+- **On approval:** Reinstall the same scope. Project (from the repo root): `bunx skills@latest add AbdulWadudh/k79-agent-skills -y`. Global: add `-g`. Verify `VERSION`, then run `node scripts/sync-agents.mjs --sync` and `--check` so the marked `AGENTS.md` block matches without deleting project content.
 - **Never** update without approval or touch unrelated skills.
 
 ## Phase 1: Specification & Blast-Radius Lock (Before Coding)

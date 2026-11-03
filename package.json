@@ -14,6 +14,10 @@
     "changelog:node": "node scripts/changelog.mjs",
     "changelog:check": "bun scripts/changelog.mjs --check",
     "changelog:check:node": "node scripts/changelog.mjs --check",
+    "agents:check": "bun scripts/sync-agents.mjs --check",
+    "agents:check:node": "node scripts/sync-agents.mjs --check",
+    "agents:sync": "bun scripts/sync-agents.mjs --sync",
+    "agents:sync:node": "node scripts/sync-agents.mjs --sync",
     "release": "bun scripts/release.mjs",
     "release:node": "node scripts/release.mjs"
   },

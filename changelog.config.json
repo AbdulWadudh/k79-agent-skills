@@ -4,8 +4,9 @@
   "license": "MIT",
   "verification": [
     "`bun run validate` — skill names, frontmatter, references, and version markers.",
-    "`bun run changelog:check` — entry schema and generated changelog freshness."
+    "`bun run changelog:check` — entry schema and generated changelog freshness.",
+    "`bun run agents:check` — the `AGENTS.md` router block matches `AGENTS.router.md`."
   ],
-  "install": "```bash\n# Project (from the repo root)\nbunx skills@latest add AbdulWadudh/k79-agent-skills --agent '*' -y\n\n# Global\nbunx skills@latest add AbdulWadudh/k79-agent-skills -g --agent '*' -y\n```\n\nPick one; neither is the default. Project scope pins the suite to the repo and can be committed. `--agent '*'` installs for every supported agent; narrow with `-a opencode`. Use `npx` when Bun is unavailable, and `--copy` on Windows if linking fails.",
-  "update": "Re-run the install command for the scope you chose. `skills add` reads the latest default branch, so a separate update step is optional. For a hash-based refresh, run `bunx skills@latest update -g -y` (global) or `-p -y` (project)."
+  "install": "```bash\nbunx skills@latest add AbdulWadudh/k79-agent-skills -y\n```\n\nDefault: project-local. Creates `.agents/skills/` and `skills-lock.json`; no agent selection and no per-agent mirrors. Advanced: add `-g` for `~/.agents/skills/`, or `-a <agent>` / `--agent '*'` for mirrors.",
+  "update": "Re-run the install command for the scope you use. `skills add` reads the latest default branch, so a separate update step is optional. For a hash-based refresh, run `bunx skills@latest update -y` (current scope) or `-g -y` / `-p -y`."
 }
