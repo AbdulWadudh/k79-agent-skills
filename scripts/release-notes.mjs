@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 /**
- * Delegates to the canonical generator shipped with the k79-logging-errors-git skill.
- * Keeping one implementation means the installed skill and this repository cannot drift.
+ * Delegates to the canonical release-notes generator shipped with k79-logging-errors-git.
  */
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-const script = fileURLToPath(new URL('../skills/k79-logging-errors-git/scripts/changelog.mjs', import.meta.url));
+const script = fileURLToPath(new URL('../skills/k79-logging-errors-git/scripts/release-notes.mjs', import.meta.url));
 
 try {
   execFileSync(process.execPath, [script, ...process.argv.slice(2)], {

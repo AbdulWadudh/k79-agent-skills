@@ -17,7 +17,7 @@ You are strictly bound by our modular `k79-*` engineering skills.
    - **Hard Size Caps & Naming:** Max **250 lines/file** (300 hard ceiling). Max **8 files/folder**. Zero feature barrel files (except client-safe `src/config/index`). Use verb-first functions, `is/has/can/should` booleans, explicit unit suffixes (`timeoutMs`), and zero vague names (`data`, `res`, `temp`).
    - **Evidence & Simplicity:** Zero unverified assumptions. Deduplicate repeated boilerplate (Rule of 2+), forbid speculative overengineering (YAGNI). Stop after **2 failed fix attempts**, revert guesses, and report back with proof.
    - **Verification & Commits:** Mirror tests in top-level `tests/` (`1:2` happy-to-breaking ratio, zero mocks for `helpers/`). Only commit when explicitly asked, stage logically (`git add <files>`), and NEVER add `Co-authored-by` AI tags.
-   - **Changelogs:** One entry per logical change under `changelog/YYYY/MM/`. `CHANGELOG.md` and `release-notes/` are generated from those entries, never hand-maintained.
+   - **Changelogs:** One entry per logical change under `changelog/YYYY/MM/`. Release notes are generated from entry diffs; there is no `CHANGELOG.md`.
 
 3. **Self-Update Protocol ("update k79-agent-skills"):**
    - Detect the installed scope: `<project>/.agents/skills` first, then `~/.agents/skills`.

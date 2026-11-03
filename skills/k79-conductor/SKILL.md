@@ -45,4 +45,4 @@ Load only the skills matching the files you are touching:
 
 ## Phase 4: On-Demand Logical Git Commits (Only When Asked)
 - **Load:** `k79-logging-errors-git`
-- **Action:** Add or update one changelog entry per logical change under `changelog/YYYY/MM/`, then run the changelog generator so `CHANGELOG.md` and any release notes are derived from those entries. Stage files logically by concern (`git add <files>`, never bulk `git add .`), write the `Why / What / Verification` commit body, and include **zero** AI/agent co-author tags.
+- **Action:** Add or update one changelog entry per logical change under `changelog/YYYY/MM/`, then run the release-notes generator so the notes are derived from the entry diff. There is no `CHANGELOG.md`. Stage files logically by concern (`git add <files>`, never bulk `git add .`), write the `Why / What / Verification` commit body, and include **zero** AI/agent co-author tags.

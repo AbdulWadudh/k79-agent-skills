@@ -2,6 +2,8 @@
 
 Copy this to `changelog/YYYY/MM/YYYY-MM-DD-<slug>.md`. The date in the path and in
 `date` must match. Leave `version` and `released` empty; the release script stamps them.
+Entries are the only changelog source: release notes are generated from the diff since the
+previous release boundary.
 
 ```markdown
 ---
@@ -29,5 +31,9 @@ The exact commands or checks that prove it works.
 
 ## Notes
 
-Follow-ups, rejected alternatives, or migration steps. Required when `breaking: true`.
+Follow-ups, rejected alternatives, or links to a spec or ADR.
+
+## Migration
+
+Required when `breaking: true`. State exactly what a consumer must change.
 ```

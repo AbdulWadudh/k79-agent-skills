@@ -43,17 +43,18 @@ Never run `git commit` unless explicitly instructed by the user. When asked to c
 3. **ZERO AI Attribution:** Strictly forbidden from including `Co-authored-by:`, `Generated with...`, or any agent/AI signatures in commit messages.
 
 ## 4. Changelogs & Release Notes (One File Per Change)
-Never maintain one growing `CHANGELOG.md` by hand. The **entry file is the source of truth**; the changelog and the release notes are generated from it.
+There is no `CHANGELOG.md`. The **entry file is the source of truth**; release notes are generated from the entries added or modified since the previous release boundary. History is append-only.
 
 ### Layout
 ```text
 changelog/
+  TEMPLATE.md                    # entry template
   YYYY/
     MM/
-      YYYY-MM-DD-<slug>.md     # one logical change
-CHANGELOG.md                   # generated, never hand-edited
+      YYYY-MM-DD-<slug>.md       # one logical change
 release-notes/
-  vX.Y.Z.md                    # generated at release, may be enriched by hand
+  vX.Y.Z.md                      # generated from the entry diff
+  .last-release.json             # paths + SHA-256 of covered entries
 ```
 
 ### Entry schema
@@ -66,45 +67,47 @@ scope: "packages/foo, apps/api"
 version: ""   # stamped by the release script
 released: ""  # stamped by the release script
 breaking: false
-highlight: true  # false keeps internal changes out of release Highlights
+highlight: true  # false keeps internal changes out of Highlights
 ---
 
 ## Why
 ## What
 ## Verification
-## Notes
+## Notes        # optional
+## Migration    # required when breaking: true
 ```
 
 ### Bundled implementation
-This skill ships a zero-dependency generator at `scripts/changelog.mjs` and a `--init` mode. Copy it into the project as `<project>/scripts/changelog.mjs`, run `node scripts/changelog.mjs --init`, then wire `changelog` and `changelog:check` into the package scripts and CI. Optional `changelog.config.json` supplies `repository`, `license`, `verification`, `install`, and `update` for the generated release notes.
+This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Copy it into the project as `<project>/scripts/release-notes.mjs`, then wire `release-notes` and `release-notes:check` into the package scripts and CI. Optional `changelog.config.json` supplies `repository`, `license`, `verification`, `install`, and `update` for the generated notes. The generator reads only the changelog entries; it never uses `git log` or commit subjects.
 
 ### Write rules
 - **One file per logical change**, not per commit and not per release. A release is a set of entries stamped with the same version.
 - Use the date the change landed, not the release date. The path date and the `date` field must match.
-- **Never edit or delete an entry after its version is stamped.** Correct it with a new entry. History is append-only.
+- **Never edit or delete an entry after its version is stamped.** Correct it with a new entry. The generator rejects changed or deleted released entries.
 - `title` is user-facing and verb-led. `scope` lists packages or paths, never prose.
-- Every entry needs `Why` and `Verification`. A future reader must be able to tell what problem it solved and what proved it.
-- A breaking change sets `breaking: true` and carries a `## Migration` section.
-- Concurrent branches each add their own file. Never resolve a changelog conflict by hand-merging a single monolith.
+- Every entry needs `Why`, `What`, and `Verification`. A breaking change adds `Migration`.
+- Concurrent branches each add their own file. Never resolve a changelog conflict by hand-merging a single file.
 - Do not put design docs in entries. Link the spec or ADR; keep the entry to what shipped and why.
 
 ### Release sequence
-1. Confirm every unreleased entry is present and `CHANGELOG.md` is current (run the changelog checker, e.g. `bun run changelog:check`).
-2. Run the release command. It must: stamp `version`/`released` on unreleased entries, regenerate `CHANGELOG.md`, generate `release-notes/vX.Y.Z.md` from the same entries, bump version markers, commit, tag, and push.
+1. Run `release-notes:check` to validate entries and the append-only history.
+2. Run the release command. It stamps `version`/`released`, selects entries since the last tag (or manifest), generates `release-notes/vX.Y.Z.md`, updates `.last-release.json`, bumps version markers, commits, tags, and pushes.
 3. Let CI publish the GitHub Release from `release-notes/vX.Y.Z.md`.
-4. Never reset or delete the `Unreleased` section. It is derived from entries with an empty `version`.
+4. Never rewrite a release note or a released entry. Add a new entry instead.
 
 ### Required generator behavior
 If the project has no generator, use the bundled one rather than writing entries by hand. It must support:
-- validate (schema, path/date match, required sections)
-- generate `CHANGELOG.md` grouped by version and type
-- stamp a version onto unreleased entries
-- generate release notes from the same entries
-- a `--check` mode wired into CI that fails when generated output is stale
+- validate frontmatter, path/date match, required sections, and `Migration` for breaking entries
+- determine the boundary from `--baseline`, the latest Git tag, or `.last-release.json`
+- select only entries added or modified since that boundary
+- reject modifications or deletions of released entries
+- generate notes grouped by `type`, with title, scope, `Why`, `What`, `Verification`, and `Migration`
+- update `.last-release.json` only after a successful write
+- `--check` and `--dry-run`
 
 ### Anti-patterns
-- One 2,000-line `CHANGELOG.md` edited on every branch (merge conflicts, lost entries).
-- Deleting the unreleased section on release (the record disappears unless duplicated).
+- A single aggregate changelog edited on every branch (merge conflicts, lost entries).
+- Editing or deleting a released entry (history is not append-only anymore).
 - Generating notes from commit subjects alone (`fix stuff`, `wip`) with no why or evidence.
-- Two hand-maintained copies of the same release summary.
+- Regenerating old release notes from the current ledger.
 - A changelog entry that only restates the diff (`changed file.ts`).

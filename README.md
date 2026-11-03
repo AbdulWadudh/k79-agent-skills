@@ -56,10 +56,11 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
    - OPTIONAL REMINDERS: `AGENTS.md` already covers every agent. For harnesses with hook APIs, `k79-conductor/hooks/README.md` adds re-injection (Claude Code `SessionStart`, OpenCode compaction). This is an optional extra, not a target list; the hooks only add context and never block tools.
    - Note that instruction files are context, not enforcement. Do not claim a rule is guaranteed.
 
-4. Changelog Tooling (only if the project has no changelog system):
-   - Copy `scripts/changelog.mjs` from the installed `k79-logging-errors-git` skill to `<project>/scripts/changelog.mjs`.
-   - Run `node scripts/changelog.mjs --init`, then add `changelog` and `changelog:check` package scripts and a CI check.
-   - Do not overwrite or migrate an existing changelog system without asking.
+4. Release-notes tooling (only if the project has no changelog ledger):
+   - Copy `scripts/release-notes.mjs` from the installed `k79-logging-errors-git` skill to `<project>/scripts/release-notes.mjs`.
+   - Create `changelog/TEMPLATE.md` from the schema in `k79-logging-errors-git/SKILL.md`, and create `release-notes/`.
+   - Add `release-notes` and `release-notes:check` package scripts and a CI check.
+   - Do not overwrite or migrate an existing ledger without asking.
 
 5. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
 ```
@@ -81,7 +82,7 @@ This repository solves those failure modes through **1 Conductor** and **7 Modul
 | **`k79-config-and-security`** | **Config Drift & Frontend Secret Leaks:** Scattered `process.env` reads, conflicting `??` fallbacks, and server configs crashing client bundles. | Enforces a 3-Tier Config Law, isolates client-safe `src/config/index` from server-only `env`/`paths`, scopes Redis/HTTP caches by `userId`, and requires idempotency keys on mutations. |
 | **`k79-performance-and-db`** | **Slow Queries, N+1 Loops & Unbounded Fetches:** Un-transactional multi-writes, `SELECT *` memory bloat, and missing API timeouts. | Enforces explicit column selection, zero queries in loops, cursor pagination, DB transactions, Mongoose `.lean()`, `Promise.all`, `AbortSignal.timeout()`, and UI debouncing/lazy-loading. |
 | **`k79-verification-testing`** | **False "Done" Claims & Tautological Tests:** Agents mocking the function under test or writing only happy-path tests that miss production crashes. | Mirrors `src/` 1-to-1 in top-level `tests/`, bans mocks on pure `helpers/`, mandates a **1:2 Happy-to-Breaking** adversarial test ratio, and supports both New and Legacy repos. |
-| **`k79-logging-errors-git`** | **Swallowed Errors, Log Spam, Sloppy Commits & Missing Release Notes:** Double-logging, bare `console.log` strings, bulk `git add .` commits, AI co-author spam, and a hand-maintained changelog that conflicts on every branch. | Enforces throwing with context in leaf files, logging once at boundaries with structured JSON metadata (`what/when/why`), on-demand atomic Git commits with zero AI attribution, and a folder-per-change changelog that generates `CHANGELOG.md` and release notes. |
+| **`k79-logging-errors-git`** | **Swallowed Errors, Log Spam, Sloppy Commits & Missing Release Notes:** Double-logging, bare `console.log` strings, bulk `git add .` commits, AI co-author spam, and a hand-maintained changelog that conflicts on every branch. | Enforces throwing with context in leaf files, logging once at boundaries with structured JSON metadata (`what/when/why`), on-demand atomic Git commits with zero AI attribution, and a folder-per-change ledger that generates release notes from entry diffs. |
 
 ---
 
@@ -91,21 +92,21 @@ This repository solves those failure modes through **1 Conductor** and **7 Modul
 k79-agent-skills/
 ├── AGENTS.md                                # Always-loaded map: reminder + marked router block
 ├── VERSION                                  # Suite version (semver source of truth)
-├── CHANGELOG.md                             # Generated from changelog/ — do not edit
 ├── changelog.config.json                    # Project, repository, install/update text for notes
 ├── LICENSE
 ├── changelog/
 │   ├── TEMPLATE.md                          # Entry template and schema
 │   └── YYYY/MM/YYYY-MM-DD-<slug>.md         # One file per logical change
 ├── release-notes/
+│   ├── .last-release.json                   # Paths + SHA-256 of covered entries
 │   └── v0.1.0.md                            # Generated GitHub Release body per version
-├── package.json                             # Bun/Node validate, changelog & release scripts
+├── package.json                             # Bun/Node validate, release-notes & release scripts
 ├── scripts/
 │   ├── list-skills.mjs                      # Prints available skills and count
 │   ├── validate-skills.mjs                  # Frontmatter, naming, reference & version checks
-│   ├── changelog.mjs                        # Validate, stamp, generate changelog & release notes
+│   ├── release-notes.mjs                    # Validate entries and generate release notes
 │   ├── sync-agents.mjs                      # Check or replace the marked AGENTS.md block
-│   └── release.mjs                          # Stamp, bump, changelog, commit, tag, push
+│   └── release.mjs                          # Stamp, bump, notes, commit, tag, push
 ├── .github/workflows/
 │   ├── validate.yml                         # CI validation on push / PR
 │   └── release.yml                          # Publishes a GitHub Release on v* tags
@@ -124,8 +125,8 @@ k79-agent-skills/
     ├── k79-performance-and-db/SKILL.md
     ├── k79-verification-testing/SKILL.md
     └── k79-logging-errors-git/
-        ├── SKILL.md                         # Error, logging, commit & changelog rules
-        └── scripts/changelog.mjs            # Portable generator copied into projects
+        ├── SKILL.md                         # Error, logging, commit & release-note rules
+        └── scripts/release-notes.mjs        # Portable generator copied into projects
 ```
 
 ---
@@ -378,29 +379,33 @@ Every logical change gets one file:
 changelog/YYYY/MM/YYYY-MM-DD-<slug>.md
 ```
 
-The file carries frontmatter (`title`, `date`, `type`, `scope`, `version`, `released`, `breaking`, `highlight`) and four sections: `Why`, `What`, `Verification`, `Notes`. Copy [`changelog/TEMPLATE.md`](./changelog/TEMPLATE.md) to start one.
+The file carries frontmatter (`title`, `date`, `type`, `scope`, `version`, `released`, `breaking`, `highlight`) and the sections `Why`, `What`, `Verification`, plus `Notes` or `Migration` when needed. Copy [`changelog/TEMPLATE.md`](./changelog/TEMPLATE.md) to start one.
 
-`CHANGELOG.md` and `release-notes/vX.Y.Z.md` are **generated** from those entries. Never edit `CHANGELOG.md` by hand, and never reset the `Unreleased` section: it is derived from entries whose `version` is empty.
+There is no aggregate changelog file. `release-notes/vX.Y.Z.md` is generated from the entries added or modified since the previous release boundary. The boundary is, in order:
+
+1. `--baseline <git-ref>`
+2. the latest Git tag (`git describe --tags --abbrev=0`)
+3. `release-notes/.last-release.json` (path + SHA-256 manifest)
 
 ```bash
-bun run changelog        # regenerate CHANGELOG.md
-bun run changelog:check  # fail if malformed or stale (runs in CI)
+bun run release-notes --dry-run --version 2.0.0
+bun run release-notes:check
 ```
 
-Node fallback: `node scripts/changelog.mjs`.
+Node fallback: `node scripts/release-notes.mjs`.
 
-At release time the release script stamps every unreleased entry with the new version and date, regenerates `CHANGELOG.md`, and writes `release-notes/vX.Y.Z.md` from the same entries. Existing release notes are kept unless you pass `--force`.
+At release time the release script stamps every unreleased entry with the new version and date, generates `release-notes/vX.Y.Z.md` from the entry diff, and updates `.last-release.json` only after the write succeeds. Released entries are append-only: the generator rejects edits or deletions.
 
 ### Using it in another project
 
 The generator ships inside the `k79-logging-errors-git` skill, so there is nothing to publish. The bootstrap prompt copies it into the project:
 
 ```bash
-cp ~/.agents/skills/k79-logging-errors-git/scripts/changelog.mjs scripts/changelog.mjs
-node scripts/changelog.mjs --init
+cp ~/.agents/skills/k79-logging-errors-git/scripts/release-notes.mjs scripts/release-notes.mjs
+mkdir -p changelog release-notes
 ```
 
-Then add the two package scripts and a CI check. An optional `changelog.config.json` supplies the repository URL, license, verification commands, and install/update text used in release notes; without it, those sections are omitted.
+Create `changelog/TEMPLATE.md` from the schema in the skill, then add the `release-notes` and `release-notes:check` package scripts and a CI check. An optional `changelog.config.json` supplies the repository URL, license, verification commands, and install/update text used in release notes; without it, those sections are omitted.
 
 ---
 
@@ -413,7 +418,7 @@ This repo uses **Semantic Versioning** and annotated Git tags. `VERSION` is the 
 - `package.json` `version`
 - `metadata.version` in every `SKILL.md`
 - stamped `version` in `changelog/**`
-- generated `CHANGELOG.md` and `release-notes/vX.Y.Z.md`
+- generated `release-notes/vX.Y.Z.md` and `release-notes/.last-release.json`
 
 Release a patch/minor/major:
 
@@ -429,12 +434,12 @@ npm run validate
 npm run release -- patch
 ```
 
-The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates the changelog and release notes, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, and pushes with `--follow-tags` (unless `--no-push`).
+The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates release notes from the entry diff, updates the manifest, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, and pushes with `--follow-tags` (unless `--no-push`).
 
 The pushed tag triggers `.github/workflows/release.yml`, which:
 
 1. Verifies the tag matches `VERSION`.
-2. Re-runs skill and changelog validation.
+2. Re-runs skill validation and the release-notes check.
 3. Publishes a GitHub Release using `release-notes/vX.Y.Z.md`.
 
 Dry run:
@@ -463,7 +468,7 @@ After that, use `bun run release patch` (or `minor` / `major`) for every subsequ
 
 ## Validation Rules
 
-`bun run validate` and `bun run changelog:check` (both enforced in CI) check:
+`bun run validate` and `bun run release-notes:check` (both enforced in CI) check:
 
 - Every `skills/*/SKILL.md` has valid YAML frontmatter.
 - `name` matches the directory name and the Agent Skills naming regex.
@@ -472,8 +477,10 @@ After that, use `bun run release patch` (or `minor` / `major`) for every subsequ
 - The installed `VERSION` marker matches the suite version.
 - Every `k79-*/SKILL.md` reference in the conductor skill and router file resolves.
 - Skill names are unique.
-- Every changelog entry has a valid path, date, type, scope, title, and body.
-- `CHANGELOG.md` matches the generated output from `changelog/`.
+- Every changelog entry has a valid path, date, type, scope, title, `Why`, `What`, and `Verification`.
+- Breaking entries have a `Migration` section.
+- Released entries are unchanged since the last release manifest.
+- Every stamped version has a `release-notes/vX.Y.Z.md` file.
 
 ---
 

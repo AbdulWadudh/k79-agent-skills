@@ -24,8 +24,8 @@ jobs:
       - name: Validate skills, names, and versions
         run: bun run validate
 
-      - name: Validate changelog entries and generated output
-        run: bun run changelog:check
+      - name: Check release notes and manifest
+        run: bun run release-notes:check
 
       - name: Check the AGENTS.md router block
         run: bun run agents:check
