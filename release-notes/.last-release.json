@@ -1,7 +1,7 @@
 {
-  "version": "2.4.3",
-  "tag": "v2.4.3",
-  "generatedAt": "2026-11-03T20:09:16.162Z",
+  "version": "2.4.4",
+  "tag": "v2.4.4",
+  "generatedAt": "2026-11-03T20:12:16.968Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -86,6 +86,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-prompt-craft-skill.md",
       "sha256": "1f122cebf30e9cc38f74f04d5ba5dffd4cba0a291d79fa2f1f33ed9d3791bbda"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-release-commit-links.md",
+      "sha256": "51e8029875a1dd00fcf3c9cf7372dce2dfa3dfbe2ac30c57d61004d1de8fcdd4"
     },
     {
       "path": "changelog/2026/11/2026-11-04-release-entry-links.md",

@@ -3,8 +3,8 @@ title: "Link each release entry to the commit that introduced it"
 date: "2026-11-04"
 type: added
 scope: "skills/k79-logging-errors-git/scripts/release-notes.mjs, skills/k79-logging-errors-git/SKILL.md, README.md"
-version: ""
-released: ""
+version: "2.4.4"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

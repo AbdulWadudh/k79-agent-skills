@@ -3,7 +3,7 @@ name: k79-evidence-and-simplicity
 description: Mandatory rules for evidence-based coding, zero assumptions, radical simplicity (anti-overengineering/YAGNI), universal DRY deduplication (Rule of 2+), and the 2-strike debugging circuit breaker. Load before debugging, exploring unfamiliar code, or designing implementations.
 license: MIT
 metadata:
-  version: "2.4.3"
+  version: "2.4.4"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 
