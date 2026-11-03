@@ -63,6 +63,7 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
    - Do not overwrite or migrate an existing ledger without asking.
 
 5. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
+   - Create no changelog entry, spec, or documentation file for this bootstrap or for any later k79 suite update. Changelog entries describe project changes only.
 
 6. Optional efficiency skills (ask me first, never auto-install):
    - Check for skills named `caveman` and `ponytail`. If one is missing, ask me once whether to install it globally:
@@ -261,7 +262,7 @@ The `k79-conductor` skill handles this with a strict approval gate:
    bunx skills@latest add AbdulWadudh/k79-agent-skills -g -y
    ```
    (Use `npx skills@latest ...` if Bun is unavailable.)
-5. Verifies the installed `VERSION`, then runs `node scripts/sync-agents.mjs --sync` and `--check` so the `AGENTS.md` block matches the new template without touching project-specific content.
+5. Verifies the installed `VERSION`, then runs `node scripts/sync-agents.mjs --sync` and `--check` so the `AGENTS.md` block matches the new template without touching project-specific content. The update writes no changelog entry, spec, or docs file — those record project changes only.
 
 Re-running the install command also updates in place: `skills add` reads the latest default branch. A separate update step is optional.
 

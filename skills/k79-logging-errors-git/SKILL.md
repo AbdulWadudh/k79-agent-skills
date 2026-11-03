@@ -81,6 +81,7 @@ highlight: true  # false keeps internal changes out of Highlights
 This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Copy it into the project as `<project>/scripts/release-notes.mjs`, then wire `release-notes` and `release-notes:check` into the package scripts and run the check before every release. Optional `changelog.config.json` supplies `repository`, `license`, `verification`, `install`, and `update` for the generated notes. The generator reads only the changelog entries; it never uses `git log` or commit subjects.
 
 ### Write rules
+- **Project changes only.** An entry records a change to the project's own code, config, or behaviour. Bootstrapping the k79 skills or updating them later (`bunx skills@latest add|update AbdulWadudh/k79-agent-skills`, `update k79-agent-skills`) produces **no entry** — that is environment setup, not a product change.
 - **One file per logical change**, not per commit and not per release. A release is a set of entries stamped with the same version.
 - Use the date the change landed, not the release date. The path date and the `date` field must match.
 - **Never edit or delete an entry after its version is stamped.** Correct it with a new entry. The generator rejects changed or deleted released entries.

@@ -16,6 +16,8 @@ metadata:
   3. **STOP** and ask the user to approve the spec. Do NOT write or edit source code files until approved.
 - **Small Bug Fixes (AUTO-PROCEED):**
   - If fixing a clear bug, typo, or syntax/type error that does NOT change expected inputs/outputs or add new files, fix the code directly after checking the spec for any `@quirk:` rules.
+- **Environment Setup (NO SPEC):**
+  - Bootstrapping the k79 skills in a project, or updating them later, needs no spec and no changelog entry. It changes the harness, not the product. Write neither.
 
 ## 2. Spec Location & 250-Line Scaling Rule
 - **Default (≤250 lines):** Single file inside the feature/module directory (`<feature>.spec.md`).

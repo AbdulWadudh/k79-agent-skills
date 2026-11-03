@@ -21,6 +21,7 @@ Follow this strict sequential lifecycle for every task. Load the required modula
 - **Newer version:** Show the current version, latest version, and release notes. **STOP for explicit approval.**
 - **On approval:** Reinstall the same scope. Project (from the repo root): `bunx skills@latest add AbdulWadudh/k79-agent-skills -y`. Global: add `-g`. Verify `VERSION`, then run `node scripts/sync-agents.mjs --sync` and `--check` so the marked `AGENTS.md` block matches without deleting project content.
 - **Never** update without approval or touch unrelated skills.
+- **No artifacts:** bootstrapping the k79 skills or updating them later produces no changelog entry, no spec, and no docs commit. Those record project changes, never a skill install.
 
 ## Prompt Tasks (Any Time)
 If the request is to write a prompt, task brief, or handoff, load `k79-prompt-craft`, run its goal-agreement interview, and do not start coding. After it emits the prompt, ask whether to take it as input and continue this session.
@@ -49,4 +50,4 @@ Load only the skills matching the files you are touching:
 
 ## Phase 4: On-Demand Logical Git Commits (Only When Asked)
 - **Load:** `k79-logging-errors-git`
-- **Action:** Add or update one changelog entry per logical change under `changelog/YYYY/MM/`, then run the release-notes generator so the notes are derived from the entry diff. There is no `CHANGELOG.md`. Stage files logically by concern (`git add <files>`, never bulk `git add .`), write the `Why / What / Verification` commit body, and include **zero** AI/agent co-author tags.
+- **Action:** Add or update one changelog entry per logical **project** change under `changelog/YYYY/MM/`, then run the release-notes generator so the notes are derived from the entry diff. There is no `CHANGELOG.md`. Bootstrapping or updating the k79 skills is environment setup and never produces an entry. Stage files logically by concern (`git add <files>`, never bulk `git add .`), write the `Why / What / Verification` commit body, and include **zero** AI/agent co-author tags.
