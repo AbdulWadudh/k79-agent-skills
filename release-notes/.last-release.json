@@ -1,7 +1,7 @@
 {
-  "version": "2.4.4",
-  "tag": "v2.4.4",
-  "generatedAt": "2026-11-03T20:12:16.968Z",
+  "version": "2.4.5",
+  "tag": "v2.4.5",
+  "generatedAt": "2026-11-03T20:16:26.715Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -74,6 +74,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-fallback-head-start.md",
       "sha256": "bc5c12d095c93fa853bd3460a59bde77b02007543340ff34d76355f18ef15183"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-inline-commit-links.md",
+      "sha256": "43b3c2baf77d954812adb2b7679f2477d21ab40109829153d333921467240fb8"
     },
     {
       "path": "changelog/2026/11/2026-11-04-local-release-publishing.md",

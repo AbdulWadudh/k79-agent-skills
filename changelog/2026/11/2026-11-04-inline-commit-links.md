@@ -3,8 +3,8 @@ title: "Attach the commit link to each change title"
 date: "2026-11-04"
 type: changed
 scope: "skills/k79-logging-errors-git/scripts/release-notes.mjs, release-notes/v2.4.4.md"
-version: ""
-released: ""
+version: "2.4.5"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---
