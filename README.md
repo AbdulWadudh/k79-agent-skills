@@ -22,18 +22,20 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
    - Report the installed suite version from `~/.agents/skills/k79-master-engineering/VERSION`.
 
 2. Read the Constitution:
-   - Read `k79-master-engineering/SKILL.md` and `k79-master-engineering/AGENTS.router.md` from the installed skills directory.
+   - Load the `k79-master-engineering` skill, then read its `SKILL.md` and `AGENTS.router.md` from the installed skills directory.
 
-3. Non-Destructive Project AGENTS.md Alignment:
-   - Check if this project has an existing `AGENTS.md` in the root directory.
-   - If NO `AGENTS.md` exists: Create `AGENTS.md` starting with the contents of `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
-   - If `AGENTS.md` ALREADY exists:
-     - PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks.
-     - MERGE or UPDATE the Skill Router block from `k79-master-engineering/AGENTS.router.md` cleanly at the top of `AGENTS.md`.
-     - RECONCILE CONFLICTS: Scan the existing `AGENTS.md` for generic coding rules that directly contradict our constitution and align only those specific lines.
-     - Show me a summary of the changes made to `AGENTS.md`.
+3. Project Instruction Files (write once, shim everywhere):
+   - PRIMARY: `AGENTS.md` at the repo root.
+     - If NO `AGENTS.md` exists: create it starting with the contents of `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
+     - If `AGENTS.md` ALREADY exists: PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks. MERGE the Skill Router block from `k79-master-engineering/AGENTS.router.md` cleanly at the top, and align only the generic rules that directly contradict the constitution. Show me a summary of the changes.
+   - SHIMS: never duplicate the router body. Add a pointer only where an agent does not read `AGENTS.md` directly:
+     - Claude Code: if a `CLAUDE.md` or `CLAUDE.local.md` already exists in the project, prepend `@AGENTS.md` to it. Do not create `CLAUDE.md` when the repo has none - Claude Code reads `AGENTS.md` natively since v2.1.277.
+     - Gemini CLI: if no `GEMINI.md` exists, create one containing `@AGENTS.md`.
+     - GitHub Copilot: if `.github/copilot-instructions.md` exists, add a one-line pointer to `AGENTS.md`.
+     - Aider: if `.aider.conf.yml` exists, add `read: AGENTS.md`.
+   - Note that instruction files are context, not enforcement. Do not claim a rule is guaranteed.
 
-4. Do not modify source code as part of this bootstrap.
+4. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
 ```
 
 ---
@@ -53,7 +55,7 @@ This repository solves those failure modes through **1 Master Workflow Orchestra
 | **`k79-config-and-security`** | **Config Drift & Frontend Secret Leaks:** Scattered `process.env` reads, conflicting `??` fallbacks, and server configs crashing client bundles. | Enforces a 3-Tier Config Law, isolates client-safe `src/config/index` from server-only `env`/`paths`, scopes Redis/HTTP caches by `userId`, and requires idempotency keys on mutations. |
 | **`k79-performance-and-db`** | **Slow Queries, N+1 Loops & Unbounded Fetches:** Un-transactional multi-writes, `SELECT *` memory bloat, and missing API timeouts. | Enforces explicit column selection, zero queries in loops, cursor pagination, DB transactions, Mongoose `.lean()`, `Promise.all`, `AbortSignal.timeout()`, and UI debouncing/lazy-loading. |
 | **`k79-verification-testing`** | **False "Done" Claims & Tautological Tests:** Agents mocking the function under test or writing only happy-path tests that miss production crashes. | Mirrors `src/` 1-to-1 in top-level `tests/`, bans mocks on pure `helpers/`, mandates a **1:2 Happy-to-Breaking** adversarial test ratio, and supports both New and Legacy repos. |
-| **`k79-logging-errors-git`** | **Swallowed Errors, Log Spam & Sloppy Commits:** Double-logging, bare `console.log` strings, bulk `git add .` commits, and AI co-author spam. | Enforces throwing with context in leaf files, logging once at boundaries with structured JSON metadata (`what/when/why`), and on-demand atomic Git commits with zero AI attribution. |
+| **`k79-logging-errors-git`** | **Swallowed Errors, Log Spam, Sloppy Commits & Missing Release Notes:** Double-logging, bare `console.log` strings, bulk `git add .` commits, AI co-author spam, and a hand-maintained changelog that conflicts on every branch. | Enforces throwing with context in leaf files, logging once at boundaries with structured JSON metadata (`what/when/why`), on-demand atomic Git commits with zero AI attribution, and a folder-per-change changelog that generates `CHANGELOG.md` and release notes. |
 
 ---
 
@@ -62,15 +64,19 @@ This repository solves those failure modes through **1 Master Workflow Orchestra
 ```text
 k79-agent-skills/
 ├── VERSION                                  # Suite version (semver source of truth)
-├── CHANGELOG.md
+├── CHANGELOG.md                             # Generated from changelog/ — do not edit
 ├── LICENSE
+├── changelog/
+│   ├── TEMPLATE.md                          # Entry template and schema
+│   └── YYYY/MM/YYYY-MM-DD-<slug>.md         # One file per logical change
 ├── release-notes/
-│   └── v0.1.0.md                            # Rich GitHub Release body per version
-├── package.json                             # Bun/Node validate & release scripts (not published)
+│   └── v0.1.0.md                            # Generated GitHub Release body per version
+├── package.json                             # Bun/Node validate, changelog & release scripts
 ├── scripts/
 │   ├── list-skills.mjs                      # Prints available skills and count
 │   ├── validate-skills.mjs                  # Frontmatter, naming, reference & version checks
-│   └── release.mjs                          # Bump, changelog, commit, tag, push
+│   ├── changelog.mjs                        # Validate, stamp, generate changelog & release notes
+│   └── release.mjs                          # Stamp, bump, changelog, commit, tag, push
 ├── .github/workflows/
 │   ├── validate.yml                         # CI validation on push / PR
 │   └── release.yml                          # Publishes a GitHub Release on v* tags
@@ -208,6 +214,26 @@ Node fallback: replace `bunx skills@latest` with `npx skills@latest`.
 
 ---
 
+## Agent Compatibility
+
+`AGENTS.md` is the closest thing to a shared standard, but it is not universal. The router is written once and shimmed per agent:
+
+| Agent | Reads project `AGENTS.md` | Notes |
+| :--- | :--- | :--- |
+| OpenCode | Yes, native | Falls back to `CLAUDE.md` when no `AGENTS.md` exists |
+| Claude Code | Yes, native | v2.1.277+. Ignored when a project `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` exists - add `@AGENTS.md` to that file |
+| Codex CLI | Yes, native | Root, nested, and `~/.codex/AGENTS.md` |
+| Cursor | Yes, native | Root and nested directories |
+| Windsurf / Cascade | Yes, native | Root is always-on; subdirectories are scoped |
+| Cline | Yes, native | v3.37.0+ |
+| GitHub Copilot | Agents and code review | Repo-wide chat still prefers `.github/copilot-instructions.md` |
+| Gemini CLI | No, by default | Reads `GEMINI.md`. Add a `GEMINI.md` containing `@AGENTS.md`, or set `context.fileName` to include `AGENTS.md` |
+| Aider | No, by default | Reads `CONVENTIONS.md`. Add `read: AGENTS.md` to `.aider.conf.yml` |
+
+Instruction files are **context, not enforcement**. For a rule that must hold, use a hook or CI.
+
+---
+
 ## Does Global Install Work as Expected?
 
 **Yes — with the caveats below.** This was verified against the `skills` CLI (v1.7.6) on Windows:
@@ -219,7 +245,7 @@ Node fallback: replace `bunx skills@latest` with `npx skills@latest`.
 
 What global install **does not** do:
 
-- It does not modify any project's `AGENTS.md`. Enforcement is automatic only after you run the bootstrap prompt above (or merge `AGENTS.router.md` yourself).
+- It does not modify any project's `AGENTS.md`. The router is loaded only after you run the bootstrap prompt above (or merge `AGENTS.router.md` yourself).
 - It does not pin to a tag; updates follow the default branch. The `VERSION` marker is what makes version comparison meaningful.
 - It does not update itself on a schedule. The agent only checks when you say "update k79-agent-skills".
 - It requires Node 22.20+. Older Node versions fail before installation starts.
@@ -244,6 +270,29 @@ The agent reports current vs latest version, waits for approval, updates the glo
 
 ---
 
+## Maintainer: Changelog & Release Notes
+
+Every logical change gets one file:
+
+```text
+changelog/YYYY/MM/YYYY-MM-DD-<slug>.md
+```
+
+The file carries frontmatter (`title`, `date`, `type`, `scope`, `version`, `released`, `breaking`, `highlight`) and four sections: `Why`, `What`, `Verification`, `Notes`. Copy [`changelog/TEMPLATE.md`](./changelog/TEMPLATE.md) to start one.
+
+`CHANGELOG.md` and `release-notes/vX.Y.Z.md` are **generated** from those entries. Never edit `CHANGELOG.md` by hand, and never reset the `Unreleased` section: it is derived from entries whose `version` is empty.
+
+```bash
+bun run changelog        # regenerate CHANGELOG.md
+bun run changelog:check  # fail if malformed or stale (runs in CI)
+```
+
+Node fallback: `node scripts/changelog.mjs`.
+
+At release time the release script stamps every unreleased entry with the new version and date, regenerates `CHANGELOG.md`, and writes `release-notes/vX.Y.Z.md` from the same entries. Existing release notes are kept unless you pass `--force`.
+
+---
+
 ## Maintainer: Versioning & Releases
 
 This repo uses **Semantic Versioning** and annotated Git tags. `VERSION` is the source of truth; `scripts/release.mjs` keeps all markers in sync. The scripts are plain `.mjs` with zero dependencies, so they run identically under **Bun (default)** or **Node**:
@@ -252,7 +301,8 @@ This repo uses **Semantic Versioning** and annotated Git tags. `VERSION` is the 
 - `skills/k79-master-engineering/VERSION`
 - `package.json` `version`
 - `metadata.version` in every `SKILL.md`
-- `CHANGELOG.md` entry
+- stamped `version` in `changelog/**`
+- generated `CHANGELOG.md` and `release-notes/vX.Y.Z.md`
 
 Release a patch/minor/major:
 
@@ -268,13 +318,13 @@ npm run validate
 npm run release -- patch
 ```
 
-The release script requires a clean `main` branch, runs validation, writes the version and changelog, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, and pushes with `--follow-tags` (unless `--no-push`).
+The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates the changelog and release notes, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, and pushes with `--follow-tags` (unless `--no-push`).
 
 The pushed tag triggers `.github/workflows/release.yml`, which:
 
 1. Verifies the tag matches `VERSION`.
-2. Re-runs skill validation.
-3. Publishes a GitHub Release with generated notes.
+2. Re-runs skill and changelog validation.
+3. Publishes a GitHub Release using `release-notes/vX.Y.Z.md`.
 
 Dry run:
 
@@ -302,7 +352,7 @@ After that, use `bun run release patch` (or `minor` / `major`) for every subsequ
 
 ## Validation Rules
 
-`bun run validate` (also enforced in CI) checks:
+`bun run validate` and `bun run changelog:check` (both enforced in CI) check:
 
 - Every `skills/*/SKILL.md` has valid YAML frontmatter.
 - `name` matches the directory name and the Agent Skills naming regex.
@@ -311,6 +361,8 @@ After that, use `bun run release patch` (or `minor` / `major`) for every subsequ
 - The installed `VERSION` marker matches the suite version.
 - Every `k79-*/SKILL.md` reference in the master skill and router file resolves.
 - Skill names are unique.
+- Every changelog entry has a valid path, date, type, scope, title, and body.
+- `CHANGELOG.md` matches the generated output from `changelog/`.
 
 ---
 

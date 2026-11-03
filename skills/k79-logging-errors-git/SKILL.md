@@ -1,6 +1,6 @@
 ---
 name: k79-logging-errors-git
-description: Mandatory rules for boundary error handling, structured contextual logging (what/when/why), and logical atomic Git commits without AI attribution. Load when handling errors, adding logs, or creating Git commits.
+description: Mandatory rules for boundary error handling, structured contextual logging (what/when/why), logical atomic Git commits without AI attribution, and changelog/release-note maintenance with one file per change. Load when handling errors, adding logs, creating Git commits, or preparing a release.
 license: MIT
 metadata:
   version: "0.1.0"
@@ -41,3 +41,67 @@ Never run `git commit` unless explicitly instructed by the user. When asked to c
    - Verified: <exact test command or static check executed>
    ```
 3. **ZERO AI Attribution:** Strictly forbidden from including `Co-authored-by:`, `Generated with...`, or any agent/AI signatures in commit messages.
+
+## 4. Changelogs & Release Notes (One File Per Change)
+Never maintain one growing `CHANGELOG.md` by hand. The **entry file is the source of truth**; the changelog and the release notes are generated from it.
+
+### Layout
+```text
+changelog/
+  YYYY/
+    MM/
+      YYYY-MM-DD-<slug>.md     # one logical change
+CHANGELOG.md                   # generated, never hand-edited
+release-notes/
+  vX.Y.Z.md                    # generated at release, may be enriched by hand
+```
+
+### Entry schema
+```markdown
+---
+title: "Verb-led, user-facing summary"
+date: "YYYY-MM-DD"
+type: added # added | changed | deprecated | removed | fixed | security
+scope: "packages/foo, apps/api"
+version: ""   # stamped by the release script
+released: ""  # stamped by the release script
+breaking: false
+highlight: true  # false keeps internal changes out of release Highlights
+---
+
+## Why
+## What
+## Verification
+## Notes
+```
+
+### Write rules
+- **One file per logical change**, not per commit and not per release. A release is a set of entries stamped with the same version.
+- Use the date the change landed, not the release date. The path date and the `date` field must match.
+- **Never edit or delete an entry after its version is stamped.** Correct it with a new entry. History is append-only.
+- `title` is user-facing and verb-led. `scope` lists packages or paths, never prose.
+- Every entry needs `Why` and `Verification`. A future reader must be able to tell what problem it solved and what proved it.
+- A breaking change sets `breaking: true` and carries a `## Migration` section.
+- Concurrent branches each add their own file. Never resolve a changelog conflict by hand-merging a single monolith.
+- Do not put design docs in entries. Link the spec or ADR; keep the entry to what shipped and why.
+
+### Release sequence
+1. Confirm every unreleased entry is present and `CHANGELOG.md` is current (run the changelog checker, e.g. `bun run changelog:check`).
+2. Run the release command. It must: stamp `version`/`released` on unreleased entries, regenerate `CHANGELOG.md`, generate `release-notes/vX.Y.Z.md` from the same entries, bump version markers, commit, tag, and push.
+3. Let CI publish the GitHub Release from `release-notes/vX.Y.Z.md`.
+4. Never reset or delete the `Unreleased` section. It is derived from entries with an empty `version`.
+
+### Required generator behavior
+If the project has no generator, create one before writing entries by hand. It must support:
+- validate (schema, path/date match, required sections)
+- generate `CHANGELOG.md` grouped by version and type
+- stamp a version onto unreleased entries
+- generate release notes from the same entries
+- a `--check` mode wired into CI that fails when generated output is stale
+
+### Anti-patterns
+- One 2,000-line `CHANGELOG.md` edited on every branch (merge conflicts, lost entries).
+- Deleting the unreleased section on release (the record disappears unless duplicated).
+- Generating notes from commit subjects alone (`fix stuff`, `wip`) with no why or evidence.
+- Two hand-maintained copies of the same release summary.
+- A changelog entry that only restates the diff (`changed file.ts`).

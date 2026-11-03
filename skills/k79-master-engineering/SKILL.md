@@ -1,6 +1,6 @@
 ---
 name: k79-master-engineering
-description: Master orchestrator and workflow router that coordinates the 7 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, and Git. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
+description: Master orchestrator and workflow router that coordinates the 7 modular k79 engineering skills across Planning, Universal Code Structure & Naming, Evidence & Simplicity, Config/Security, DB/Performance, Testing, and Git, Changelogs & Releases. Also load when the user says "update k79-agent-skills" to compare the installed suite version against the latest release and update after explicit approval.
 license: MIT
 metadata:
   version: "0.1.0"
@@ -9,7 +9,7 @@ metadata:
 
 # Master Engineering Workflow & Skill Orchestrator (k79 Suite)
 
-Follow this strict sequential lifecycle for every task. Load the required modular skill(s) by name from the active skills directory (`<project>/.agents/skills/`, `~/.agents/skills/`, `~/.claude/skills/`, or `~/.config/opencode/skills/`) before executing each phase:
+Follow this strict sequential lifecycle for every task. Load the required modular skill(s) **by name** with your skill tool before executing each phase. If your agent has no skill loader, read `SKILL.md` from the first existing directory: `<project>/.agents/skills/`, `~/.agents/skills/`, `~/.claude/skills/`, or `~/.config/opencode/skills/`.
 
 > **Suite version:** see `VERSION` next to this file (also `metadata.version` above).
 
@@ -52,4 +52,4 @@ Load only the skills matching the files you are touching:
 
 ## Phase 4: On-Demand Logical Git Commits (Only When Asked)
 - **Load:** `k79-logging-errors-git/SKILL.md`
-- **Action:** Stage files logically by concern (`git add <files>`, never bulk `git add .`), write the `Why / What / Verification` commit body, and include **zero** AI/agent co-author tags.
+- **Action:** Add or update one changelog entry per logical change under `changelog/YYYY/MM/`, then run the changelog generator so `CHANGELOG.md` and any release notes are derived from those entries. Stage files logically by concern (`git add <files>`, never bulk `git add .`), write the `Why / What / Verification` commit body, and include **zero** AI/agent co-author tags.
