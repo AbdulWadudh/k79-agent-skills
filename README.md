@@ -59,7 +59,7 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
 4. Release-notes tooling (only if the project has no changelog ledger):
    - Copy `scripts/release-notes.mjs` from the installed `k79-logging-errors-git` skill to `<project>/scripts/release-notes.mjs`.
    - Create `changelog/TEMPLATE.md` from the schema in `k79-logging-errors-git/SKILL.md`, and create `release-notes/`.
-   - Add `release-notes` and `release-notes:check` package scripts and a CI check.
+   - Add `release-notes` and `release-notes:check` package scripts and run the check before every release.
    - Do not overwrite or migrate an existing ledger without asking.
 
 5. Verify and report which instruction file each agent you use will load. Do not modify source code as part of this bootstrap.
@@ -106,10 +106,7 @@ k79-agent-skills/
 │   ├── validate-skills.mjs                  # Frontmatter, naming, reference & version checks
 │   ├── release-notes.mjs                    # Validate entries and generate release notes
 │   ├── sync-agents.mjs                      # Check or replace the marked AGENTS.md block
-│   └── release.mjs                          # Stamp, bump, notes, commit, tag, push
-├── .github/workflows/
-│   ├── validate.yml                         # CI validation on push / PR
-│   └── release.yml                          # Publishes a GitHub Release on v* tags
+│   └── release.mjs                          # Stamp, bump, notes, commit, tag, push, publish
 └── skills/
     ├── k79-conductor/
     │   ├── SKILL.md                         # Phase-gated workflow + update protocol
@@ -150,7 +147,7 @@ This creates exactly:
 
 It does **not** create `.claude/skills/`, `agent/skills/`, or any per-agent mirror. No `-a` flag is required.
 
-Commit `.agents/skills/` and `skills-lock.json` if teammates and CI should use the same version; ignore them if the install is only for you.
+Commit `.agents/skills/` and `skills-lock.json` if teammates and your agent should use the same version; ignore them if the install is only for you.
 
 ### Advanced: global or per-agent mirrors
 
@@ -292,7 +289,7 @@ Node fallback: replace `bunx skills@latest` with `npx skills@latest`.
 | Gemini CLI | No, by default | Reads `GEMINI.md`. Add a `GEMINI.md` containing `@AGENTS.md`, or set `context.fileName` to include `AGENTS.md` |
 | Aider | No, by default | Reads `CONVENTIONS.md`. Add `read: AGENTS.md` to `.aider.conf.yml` |
 
-Instruction files are **context, not enforcement**. For a rule that must hold, use a hook or CI.
+Instruction files are **context, not enforcement**. For a rule that must hold, use a hook or a local check.
 
 ---
 
@@ -329,7 +326,7 @@ node scripts/sync-agents.mjs --check
 node scripts/sync-agents.mjs --sync
 ```
 
-`--check` fails on drift. `--sync` preserves every line outside the markers. The suite runs the check in CI and before every release. Projects get the script from `k79-conductor/scripts/sync-agents.mjs` during bootstrap.
+`--check` fails on drift. `--sync` preserves every line outside the markers. The suite runs the check before every release. Projects get the script from `k79-conductor/scripts/sync-agents.mjs` during bootstrap.
 
 ---
 
@@ -405,7 +402,7 @@ cp ~/.agents/skills/k79-logging-errors-git/scripts/release-notes.mjs scripts/rel
 mkdir -p changelog release-notes
 ```
 
-Create `changelog/TEMPLATE.md` from the schema in the skill, then add the `release-notes` and `release-notes:check` package scripts and a CI check. An optional `changelog.config.json` supplies the repository URL, license, verification commands, and install/update text used in release notes; without it, those sections are omitted.
+Create `changelog/TEMPLATE.md` from the schema in the skill, then add the `release-notes` and `release-notes:check` package scripts and run the check before every release. An optional `changelog.config.json` supplies the repository URL, license, verification commands, and install/update text used in release notes; without it, those sections are omitted.
 
 ---
 
@@ -434,13 +431,9 @@ npm run validate
 npm run release -- patch
 ```
 
-The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates release notes from the entry diff, updates the manifest, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, and pushes with `--follow-tags` (unless `--no-push`).
+The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates release notes from the entry diff, updates the manifest, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, pushes with `--follow-tags`, and publishes the GitHub Release (unless `--no-push`).
 
-The pushed tag triggers `.github/workflows/release.yml`, which:
-
-1. Verifies the tag matches `VERSION`.
-2. Re-runs skill validation and the release-notes check.
-3. Publishes a GitHub Release using `release-notes/vX.Y.Z.md`.
+After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md`. If `gh` is unavailable or unauthenticated, it prints the exact command to run. There is no GitHub Actions workflow in this repository.
 
 Dry run:
 
@@ -468,7 +461,7 @@ After that, use `bun run release patch` (or `minor` / `major`) for every subsequ
 
 ## Validation Rules
 
-`bun run validate` and `bun run release-notes:check` (both enforced in CI) check:
+`bun run validate` and `bun run release-notes:check` (both run by the agent before every release) check:
 
 - Every `skills/*/SKILL.md` has valid YAML frontmatter.
 - `name` matches the directory name and the Agent Skills naming regex.

@@ -26,4 +26,4 @@ You are strictly bound by our modular `k79-*` engineering skills.
    - On approval, reinstall the same scope: project `bunx skills@latest add AbdulWadudh/k79-agent-skills -y`; global add `-g`. Verify `VERSION`, then run `node scripts/sync-agents.mjs --sync` and `--check`.
    - Never update without approval or touch unrelated skills.
 
-4. **Instruction Files Are Context, Not Enforcement:** `AGENTS.md` (and its shims) guides the agent; it cannot block an action. If a rule must be guaranteed, back it with CI or an agent hook.
+4. **Instruction Files Are Context, Not Enforcement:** `AGENTS.md` (and its shims) guides the agent; it cannot block an action. If a rule must be guaranteed, back it with a local check or an agent hook.

@@ -78,7 +78,7 @@ highlight: true  # false keeps internal changes out of Highlights
 ```
 
 ### Bundled implementation
-This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Copy it into the project as `<project>/scripts/release-notes.mjs`, then wire `release-notes` and `release-notes:check` into the package scripts and CI. Optional `changelog.config.json` supplies `repository`, `license`, `verification`, `install`, and `update` for the generated notes. The generator reads only the changelog entries; it never uses `git log` or commit subjects.
+This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Copy it into the project as `<project>/scripts/release-notes.mjs`, then wire `release-notes` and `release-notes:check` into the package scripts and run the check before every release. Optional `changelog.config.json` supplies `repository`, `license`, `verification`, `install`, and `update` for the generated notes. The generator reads only the changelog entries; it never uses `git log` or commit subjects.
 
 ### Write rules
 - **One file per logical change**, not per commit and not per release. A release is a set of entries stamped with the same version.
@@ -92,7 +92,7 @@ This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Cop
 ### Release sequence
 1. Run `release-notes:check` to validate entries and the append-only history.
 2. Run the release command. It stamps `version`/`released`, selects entries since the last tag (or manifest), generates `release-notes/vX.Y.Z.md`, updates `.last-release.json`, bumps version markers, commits, tags, and pushes.
-3. Let CI publish the GitHub Release from `release-notes/vX.Y.Z.md`.
+3. Publish the GitHub Release from `release-notes/vX.Y.Z.md` with `gh release create --verify-tag --notes-file ...`; the agent runs this locally.
 4. Never rewrite a release note or a released entry. Add a new entry instead.
 
 ### Required generator behavior

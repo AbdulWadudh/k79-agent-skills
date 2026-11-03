@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Cuts a release: bumps every version marker, stamps changelog entries, generates
- * release notes, commits, creates an annotated tag, and pushes when a remote exists.
+ * release notes, commits, creates an annotated tag, pushes, and publishes the GitHub Release.
  *
  * Usage:
  *   bun run release patch
@@ -14,7 +14,7 @@
  *
  * Flags:
  *   --dry-run      Show the plan without writing, committing, or tagging.
- *   --no-push      Commit and tag locally, but do not push.
+ *   --no-push      Commit and tag locally, but do not push or publish.
  *   --allow-dirty  Skip the clean-working-tree check (not recommended).
  *   --allow-branch Allow releasing from a branch other than main.
  *   --allow-empty-changelog  Permit a release with no unreleased changelog entries.
@@ -63,6 +63,27 @@ function git(...gitArgs) {
 function tryGit(...gitArgs) {
   try {
     return git(...gitArgs);
+  } catch {
+    return '';
+  }
+}
+
+function commandAvailable(command, args) {
+  try {
+    execFileSync(command, args, { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function tryCommand(command, args) {
+  try {
+    return execFileSync(command, args, {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
   } catch {
     return '';
   }
@@ -284,12 +305,30 @@ console.log(`Created commit and tag ${tag}.`);
 
 const remote = tryGit('remote', 'get-url', 'origin');
 if (!remote) {
-  console.log('No "origin" remote configured; skipping push.');
+  console.log('No "origin" remote configured; skipping push and release.');
   console.log('Add one with: git remote add origin https://github.com/AbdulWadudh/k79-agent-skills.git');
   console.log(`Then push with: git push origin ${branch} --follow-tags`);
+  console.log(`Publish with: gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "release-notes/${tag}.md"`);
 } else if (noPush) {
-  console.log(`Skipping push (--no-push). Push with: git push origin ${branch} --follow-tags`);
+  console.log(`Skipping push and release (--no-push).`);
+  console.log(`Push with: git push origin ${branch} --follow-tags`);
+  console.log(`Publish with: gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "release-notes/${tag}.md"`);
 } else {
   git('push', 'origin', branch, '--follow-tags');
-  console.log(`Pushed ${branch} and ${tag}; GitHub Actions will publish the release.`);
+  console.log(`Pushed ${branch} and ${tag}.`);
+
+  const notesFile = releaseNotesFile(tag);
+  if (!commandAvailable('gh', ['--version'])) {
+    console.log('GitHub CLI not found; publish manually:');
+    console.log(`  gh release create ${tag} --verify-tag --title "k79-agent-skills ${tag}" --notes-file "${notesFile}"`);
+  } else if (tryCommand('gh', ['release', 'view', tag, '--json', 'tagName'])) {
+    console.log(`GitHub Release ${tag} already exists.`);
+  } else {
+    execFileSync(
+      'gh',
+      ['release', 'create', tag, '--verify-tag', '--title', `k79-agent-skills ${tag}`, '--notes-file', notesFile],
+      { cwd: repoRoot, stdio: 'inherit' },
+    );
+    console.log(`Published GitHub Release ${tag}.`);
+  }
 }
