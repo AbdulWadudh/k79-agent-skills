@@ -31,8 +31,9 @@ metadata:
 - **Expected Output:** Exact return shape, side effects (DB/API/State), and error states.
 
 ## 2. Acceptance Criteria (Testable)
-- [ ] WHEN <trigger/condition>, THE SYSTEM SHALL <deterministic outcome>.
-- [ ] IF <invalid input/failure>, THE SYSTEM SHALL return/raise <exact error>.
+**Status:** [OPEN] not started · [WIP] in progress · [DONE] verified with proof · [ASSERTED] wording only, no executable check · [FAILED] · [BLOCKED]
+- [OPEN] WHEN <trigger/condition>, THE SYSTEM SHALL <deterministic outcome>.
+- [OPEN] IF <invalid input/failure>, THE SYSTEM SHALL return/raise <exact error>.
 
 ## 3. File Scope Lock (Blast Radius)
 *Agent may ONLY create or edit the source files listed below during implementation:*
@@ -46,6 +47,19 @@ metadata:
 - **Workaround (What):** How this exception works.
 - **DO NOT:** What future edits must never change.
 ```
+
+### 3.1 Status Discipline (every generated spec)
+
+Never use `- [ ]` or `- [x]` in Acceptance Criteria. Every criterion starts with one word marker in brackets, and every spec carries the legend line above them:
+
+- **[OPEN]** — written, not started. The default at approval.
+- **[WIP]** — partly implemented; note what remains.
+- **[DONE]** — append the exact proof on the same line: `(verified: bun test tests/foo.test.ts)` or `(verified: tsc --noEmit)`.
+- **[ASSERTED]** — the rule is in place but nothing can execute it (instruction files, prompts, docs). This is the honest marker for prose rules. Never upgrade it to `[DONE]`.
+- **[FAILED]** — append one line naming the cause, then apply the 2-strike rule from `k79-evidence-and-simplicity`.
+- **[BLOCKED]** — name what unblocks it.
+
+Reading code is not a check. A criterion with no executed command is `[ASSERTED]`, not `[DONE]`. A criterion left `[OPEN]` after release is stale drift, not a status.
 
 ## 4. Inline Quirk Shield (Post-Write Automatic Upsert)
 Whenever you write a deliberate workaround or anti-pattern due to system/3rd-party constraints:

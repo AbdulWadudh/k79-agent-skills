@@ -27,6 +27,6 @@ Happy-path-only test files are strictly forbidden. Every tested function MUST in
 3. **Failure & Downstream Breaking (≥1x for `actions/`):** Simulate `queries` returning `null`/throwing constraint errors, and 3rd-party `api` timing out or returning `4xx/5xx`. Assert exact expected errors and zero partial/corrupt writes.
 
 ## 4. Spec-to-Test Traceability & Dual-Mode Execution
-Every testable checkbox in `<feature>.spec.md` (`WHEN / IF ... THE SYSTEM SHALL ...`) must map to a real test block before checking off `- [x]`.
+Every testable criterion in `<feature>.spec.md` (`WHEN / IF ... THE SYSTEM SHALL ...`) must map to a real test block before it is marked [DONE]. Marker legend: [OPEN] not started · [WIP] in progress · [DONE] verified with proof · [ASSERTED] wording only · [FAILED] · [BLOCKED]. A criterion that passes a test becomes [DONE] with the command recorded on the same line; a rule no executable check can reach stays [ASSERTED] and is reported as "verified statically only". Never use `- [x]`, and never award [DONE] for reading the code.
 - **Mode A — Test Runner Configured:** Run `tsc --noEmit`, write/update the mirrored test in `tests/<path>`, and run ONLY that specific test file (`bun test tests/<path>`).
 - **Mode B — Legacy Repo (No Test Infrastructure):** Run `tsc --noEmit`, extract new pure logic into a `.helper` file and verify against valid + breaking inputs, and report which criteria were verified statically vs. at runtime.

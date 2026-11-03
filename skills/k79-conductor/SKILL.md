@@ -45,7 +45,7 @@ Load only the skills matching the files you are touching:
 
 ## Phase 3: Adversarial Verification (Before Claiming "Done")
 - **Load:** `k79-verification-testing`
-- **Action:** Run the language's static type/compile checker and targeted tests in top-level `tests/` (mirroring `src/`). Enforce zero mocks for `helpers/` and a **1:2 happy-to-breaking** test ratio. Check off `- [x]` in `<feature>.spec.md`.
+- **Action:** Run the language's static type/compile checker and targeted tests in top-level `tests/` (mirroring `src/`). Enforce zero mocks for `helpers/` and a **1:2 happy-to-breaking** test ratio. Update each acceptance criterion in `<feature>.spec.md` with its status marker ([OPEN] [WIP] [DONE] [ASSERTED] [FAILED] [BLOCKED]), never `- [x]`; [DONE] requires the proof command on the same line, and a rule no check can execute stays [ASSERTED].
 
 ## Phase 4: On-Demand Logical Git Commits (Only When Asked)
 - **Load:** `k79-logging-errors-git`
