@@ -3,8 +3,8 @@ title: "Link only the changelog entries that belong to the release"
 date: "2026-11-04"
 type: fixed
 scope: "skills/k79-logging-errors-git/scripts/release-notes.mjs, release-notes/v2.4.1.md"
-version: ""
-released: ""
+version: "2.4.2"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---

@@ -3,7 +3,7 @@ name: k79-config-and-security
 description: Mandatory rules for the 3-tier configuration architecture, src/config/ client-vs-server barrel isolation, secret protection, cache/auth scoping, and idempotency. Load when adding constants, env vars, settings, auth checks, or payment/create routes.
 license: MIT
 metadata:
-  version: "2.4.1"
+  version: "2.4.2"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 
