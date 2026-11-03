@@ -3,8 +3,8 @@ title: "Make the bootstrap install explicitly agent-agnostic"
 date: "2026-11-03"
 type: changed
 scope: "README.md, release-notes/v0.4.0.md"
-version: ""
-released: ""
+version: "1.0.0"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---

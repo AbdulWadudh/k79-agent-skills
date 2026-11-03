@@ -3,8 +3,8 @@ title: "Ask for install scope instead of defaulting to global"
 date: "2026-11-03"
 type: changed
 scope: "README.md, skills/k79-conductor, changelog.config.json"
-version: ""
-released: ""
+version: "1.0.0"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

@@ -6,11 +6,17 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+_No unreleased changes._
+
+## [1.0.0] - 2026-11-03
+
 ### Changed
 
 - Make the bootstrap install explicitly agent-agnostic ([details](changelog/2026/11/2026-11-03-bootstrap-agent-agnostic.md))
 - Ask for install scope instead of defaulting to global ([details](changelog/2026/11/2026-11-03-install-scope-choice.md))
 - Rename the orchestrator to k79-conductor **BREAKING** ([details](changelog/2026/11/2026-11-03-rename-conductor.md))
+
+[Full release notes](./release-notes/v1.0.0.md)
 
 ## [0.4.1] - 2026-11-03
 

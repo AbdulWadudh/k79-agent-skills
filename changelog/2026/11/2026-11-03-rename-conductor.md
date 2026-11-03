@@ -3,8 +3,8 @@ title: "Rename the orchestrator to k79-conductor"
 date: "2026-11-03"
 type: changed
 scope: "skills/, scripts/, README.md"
-version: ""
-released: ""
+version: "1.0.0"
+released: "2026-11-03"
 breaking: true
 highlight: true
 ---
