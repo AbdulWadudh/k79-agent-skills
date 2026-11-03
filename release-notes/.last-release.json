@@ -1,7 +1,7 @@
 {
-  "version": "2.4.5",
-  "tag": "v2.4.5",
-  "generatedAt": "2026-11-03T20:16:26.715Z",
+  "version": "2.4.6",
+  "tag": "v2.4.6",
+  "generatedAt": "2026-11-03T20:58:37.474Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -68,6 +68,10 @@
       "sha256": "d482b87beda80011c65814dc1142fcf32da0a635c3ba40c64fbea039c8fea876"
     },
     {
+      "path": "changelog/2026/11/2026-11-04-adopt-external-efficiency-skills.md",
+      "sha256": "a24e69e0abe50ea9b8914059f88930e20430e7bc502d7b096a23478716d8813c"
+    },
+    {
       "path": "changelog/2026/11/2026-11-04-fallback-branch-trigger.md",
       "sha256": "33e5e4d4dc31f4f85f283a3eb38c20866455083a2f7c9e67c4c0cfb45f721dcf"
     },
@@ -110,6 +114,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-remove-full-diff-link.md",
       "sha256": "6ca47d4c2bccf52df0ba5f43847207a5284a4d2f3af840500a59bc2ec2848c2f"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-spec-status-markers.md",
+      "sha256": "78d36a75b06a21b00dab65086287ff90911e8c21296eea8b56c033b040324ab7"
     },
     {
       "path": "changelog/2026/11/2026-11-04-validate-release-notes.md",

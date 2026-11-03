@@ -3,7 +3,7 @@ name: k79-performance-and-db
 description: Mandatory database safety (Postgres/Drizzle, Prisma, Mongoose, Redis) and full-stack performance rules. Load when writing DB queries, external API calls, caching, background jobs, or frontend data-fetching/UI lists.
 license: MIT
 metadata:
-  version: "2.4.5"
+  version: "2.4.6"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 

@@ -3,8 +3,8 @@ title: "Adopt caveman and ponytail as opt-in efficiency skills"
 date: "2026-11-04"
 type: added
 scope: "skills/k79-conductor, skills/k79-evidence-and-simplicity, README.md, specs/external-skill-adoption.spec.md"
-version: ""
-released: ""
+version: "2.4.6"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---

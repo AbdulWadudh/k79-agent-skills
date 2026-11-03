@@ -3,8 +3,8 @@ title: "Replace spec checkboxes with six verification status markers"
 date: "2026-11-04"
 type: changed
 scope: "skills/k79-spec-driven, skills/k79-conductor, skills/k79-verification-testing, specs/spec-status-markers.spec.md"
-version: ""
-released: ""
+version: "2.4.6"
+released: "2026-11-03"
 breaking: false
 highlight: true
 ---
