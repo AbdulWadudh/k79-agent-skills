@@ -431,8 +431,18 @@ function entryCommit(path, boundary) {
   return { hash, subject };
 }
 
+function commitSuffix(entry, commits, repositoryUrl) {
+  const commit = commits.get(entry.path);
+  if (!commit) return '';
+  const short = commit.hash.slice(0, 7);
+  return repositoryUrl
+    ? ` ([\`${short}\`](${repositoryUrl}/commit/${commit.hash}))`
+    : ` (\`${short}\`)`;
+}
+
 function generateReleaseNotes(targetVersion, boundary, selected) {
   const repositoryUrl = resolveRepository();
+  const commits = new Map(selected.map((entry) => [entry.path, entryCommit(entry.path, boundary)]));
   const releaseDate = today();
   const breaking = selected.filter((entry) => entry.breaking);
   const highlights = selected.filter((entry) => entry.highlight);
@@ -443,12 +453,12 @@ function generateReleaseNotes(targetVersion, boundary, selected) {
 
   lines.push('## Highlights', '');
   if (highlights.length === 0) lines.push('_See the change records below._');
-  else lines.push(...highlights.map((entry) => `- ${entry.title}`));
+  else lines.push(...highlights.map((entry) => `- ${entry.title}${commitSuffix(entry, commits, repositoryUrl)}`));
   lines.push('');
 
   if (breaking.length > 0) {
     lines.push('## Breaking Changes', '');
-    lines.push(...breaking.map((entry) => `- ${entry.title} — see [details](../${entry.path})`));
+    lines.push(...breaking.map((entry) => `- ${entry.title}${commitSuffix(entry, commits, repositoryUrl)} — see [details](../${entry.path})`));
     lines.push('');
   }
 
@@ -457,14 +467,7 @@ function generateReleaseNotes(targetVersion, boundary, selected) {
     if (matching.length === 0) continue;
     lines.push(`## ${typeLabels[type]}`, '');
     for (const entry of matching) {
-      lines.push(`### ${entry.title}`, '');
-      const commit = entryCommit(entry.path, boundary);
-      if (commit) {
-        const short = commit.hash.slice(0, 7);
-        lines.push(repositoryUrl
-          ? `**Commit:** [${short}](${repositoryUrl}/commit/${commit.hash})`
-          : `**Commit:** \`${short}\``, '');
-      }
+      lines.push(`### ${entry.title}${commitSuffix(entry, commits, repositoryUrl)}`, '');
       if (entry.scope) lines.push(`**Scope:** ${entry.scope}`, '');
       lines.push(demoteHeadings(entry.body), '');
     }
