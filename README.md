@@ -26,13 +26,14 @@ Bootstrap and align this project with my Engineering Skills repository (AbdulWad
 
 3. Project Instruction Files (write once, shim everywhere):
    - PRIMARY: `AGENTS.md` at the repo root.
-     - If NO `AGENTS.md` exists: create it starting with the contents of `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
-     - If `AGENTS.md` ALREADY exists: PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks. MERGE the Skill Router block from `k79-master-engineering/AGENTS.router.md` cleanly at the top, and align only the generic rules that directly contradict the constitution. Show me a summary of the changes.
+     - If NO `AGENTS.md` exists: create it starting with the contents of `k79-master-engineering/K79.reminder.md`, then the router block from `k79-master-engineering/AGENTS.router.md`, followed by a concise Project Context section (tech stack, package manager, build/typecheck/test commands, and key folder paths discovered from the repo).
+     - If `AGENTS.md` ALREADY exists: PRESERVE 100% of all project-specific context, domain knowledge, custom commands, environment notes, and architectural quirks. MERGE the reminder and Skill Router block cleanly at the top, and align only the generic rules that directly contradict the constitution. Show me a summary of the changes.
    - SHIMS: never duplicate the router body. Add a pointer only where an agent does not read `AGENTS.md` directly:
      - Claude Code: if a `CLAUDE.md` or `CLAUDE.local.md` already exists in the project, prepend `@AGENTS.md` to it. Do not create `CLAUDE.md` when the repo has none - Claude Code reads `AGENTS.md` natively since v2.1.277.
      - Gemini CLI: if no `GEMINI.md` exists, create one containing `@AGENTS.md`.
      - GitHub Copilot: if `.github/copilot-instructions.md` exists, add a one-line pointer to `AGENTS.md`.
      - Aider: if `.aider.conf.yml` exists, add `read: AGENTS.md`.
+   - OPTIONAL REMINDERS: install the hooks in `k79-master-engineering/hooks/README.md` (Claude Code `SessionStart`, OpenCode compaction). They only re-inject the reminder; they never block tools.
    - Note that instruction files are context, not enforcement. Do not claim a rule is guaranteed.
 
 4. Changelog Tooling (only if the project has no changelog system):
@@ -90,6 +91,8 @@ k79-agent-skills/
     ├── k79-master-engineering/
     │   ├── SKILL.md                         # Phase-gated workflow + update protocol
     │   ├── AGENTS.router.md                 # Router block merged into project AGENTS.md
+    │   ├── K79.reminder.md                  # Ten-line reminder prepended to AGENTS.md
+    │   ├── hooks/                           # Optional SessionStart / compaction reminders
     │   └── VERSION                          # Installed version marker
     ├── k79-spec-driven/SKILL.md
     ├── k79-code-structure/SKILL.md
@@ -239,6 +242,22 @@ Node fallback: replace `bunx skills@latest` with `npx skills@latest`.
 | Aider | No, by default | Reads `CONVENTIONS.md`. Add `read: AGENTS.md` to `.aider.conf.yml` |
 
 Instruction files are **context, not enforcement**. For a rule that must hold, use a hook or CI.
+
+---
+
+## Reminders, Not Restrictions
+
+Prompts are advisory. A reminder raises adherence; it does not guarantee it. The suite uses three lightweight reminders instead of gates:
+
+| Reminder | Where it lives | Survives compaction |
+| :--- | :--- | :--- |
+| [`K79.reminder.md`](./skills/k79-master-engineering/K79.reminder.md) | Top of the project's `AGENTS.md` | No, unless a hook re-injects it |
+| Skill descriptions | The agent's skill list, shown every session | Yes |
+| Session hooks | Claude Code `SessionStart`, OpenCode compaction | Yes |
+
+The bootstrap prompt prepends the reminder to `AGENTS.md`. The copy-paste hooks are in [`skills/k79-master-engineering/hooks/README.md`](./skills/k79-master-engineering/hooks/README.md). They only add context; they never block a tool.
+
+Keep the reminder short. A ten-line reminder gets reread; a hundred-line one gets skimmed. When a rule matters enough to guarantee, move it to a check rather than adding more prose.
 
 ---
 

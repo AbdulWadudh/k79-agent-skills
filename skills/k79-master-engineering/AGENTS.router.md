@@ -1,5 +1,7 @@
 ## Engineering Constitution & Skill Router (MANDATORY)
 
+> **Reminder:** `K79.reminder.md` next to this file is the one-screen version. Read it at the start of every task and after context compaction. It is a reminder, not a restriction.
+
 You are strictly bound by our modular `k79-*` engineering skills.
 
 **Resolving a skill:** load it by name with your skill tool first (for example the `k79-spec-driven` skill). If your agent has no skill loader, read `SKILL.md` from the first directory that exists:

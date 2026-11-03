@@ -6,7 +6,9 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
-_No unreleased changes._
+### Added
+
+- Add a short reminder pack that survives context compaction ([details](changelog/2026/11/2026-11-03-reminder-pack.md))
 
 ## [0.3.0] - 2026-11-03
 
