@@ -435,7 +435,7 @@ npm run release -- patch
 
 The release script requires a clean `main` branch, refuses to run with no unreleased changelog entries, runs validation, stamps the entries, generates release notes from the entry diff, updates the manifest, bumps the version markers, commits `chore(release): vX.Y.Z`, creates an annotated `vX.Y.Z` tag, pushes with `--follow-tags`, and publishes the GitHub Release (unless `--no-push`).
 
-After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md` locally. If `gh` is unavailable or unauthenticated, the tag-triggered fallback workflow (`.github/workflows/release.yml`) publishes the release; if Actions is disabled, the script prints the exact command. The workflow skips when the release already exists, so a configured `gh` wins and the workflow does nothing.
+After pushing, the script runs `gh release create --verify-tag --notes-file release-notes/vX.Y.Z.md` locally. If `gh` is unavailable or unauthenticated, the tag-triggered fallback workflow (`.github/workflows/release.yml`) publishes the release after a short head start. The workflow publishes only if the release is still missing, so a configured `gh` normally wins and the workflow skips. If Actions is disabled, the script prints the exact command.
 
 Dry run:
 

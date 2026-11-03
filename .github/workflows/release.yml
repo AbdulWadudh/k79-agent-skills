@@ -17,6 +17,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Give the local gh publish a head start
+        run: sleep 15
+
       - name: Check whether the release already exists
         id: release
         env:
