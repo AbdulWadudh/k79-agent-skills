@@ -420,7 +420,18 @@ function sortEntries(entries) {
   });
 }
 
-function generateReleaseNotes(targetVersion, selected) {
+function entryCommit(path, boundary) {
+  const range = boundary && !boundary.startsWith('manifest ') ? `${boundary}..HEAD` : 'HEAD';
+  const output = tryGit('log', range, '--format=%H%x09%s', '--', path);
+  const line = output
+    .split('\n')
+    .find((item) => item && !item.includes('\tchore(release):'));
+  if (!line) return null;
+  const [hash, subject] = line.split('\t');
+  return { hash, subject };
+}
+
+function generateReleaseNotes(targetVersion, boundary, selected) {
   const repositoryUrl = resolveRepository();
   const releaseDate = today();
   const breaking = selected.filter((entry) => entry.breaking);
@@ -447,6 +458,13 @@ function generateReleaseNotes(targetVersion, selected) {
     lines.push(`## ${typeLabels[type]}`, '');
     for (const entry of matching) {
       lines.push(`### ${entry.title}`, '');
+      const commit = entryCommit(entry.path, boundary);
+      if (commit) {
+        const short = commit.hash.slice(0, 7);
+        lines.push(repositoryUrl
+          ? `**Commit:** [${short}](${repositoryUrl}/commit/${commit.hash})`
+          : `**Commit:** \`${short}\``, '');
+      }
       if (entry.scope) lines.push(`**Scope:** ${entry.scope}`, '');
       lines.push(demoteHeadings(entry.body), '');
     }
@@ -563,7 +581,7 @@ function main() {
 
   const releaseFile = join(releaseNotesRoot, `v${version}.md`);
   mkdirSync(releaseNotesRoot, { recursive: true });
-  writeFileSync(releaseFile, generateReleaseNotes(version, selected), 'utf8');
+  writeFileSync(releaseFile, generateReleaseNotes(version, boundary, selected), 'utf8');
   console.log(`Wrote release-notes/v${version}.md from ${selected.length} entr${selected.length === 1 ? 'y' : 'ies'} since ${boundary}.`);
 
   const existing = readManifest();

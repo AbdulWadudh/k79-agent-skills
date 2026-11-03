@@ -395,7 +395,7 @@ bun run release-notes:check
 
 Node fallback: `node scripts/release-notes.mjs`.
 
-At release time the release script stamps every unreleased entry with the new version and date, generates `release-notes/vX.Y.Z.md` from the entry diff, and updates `.last-release.json` only after the write succeeds. Released entries are append-only: the generator rejects edits or deletions.
+At release time the release script stamps every unreleased entry with the new version and date, generates `release-notes/vX.Y.Z.md` from the entry diff, and updates `.last-release.json` only after the write succeeds. Released entries are append-only: the generator rejects edits or deletions. A release includes every selected entry; each entry carries a commit link when its commit is available.
 
 ### Using it in another project
 

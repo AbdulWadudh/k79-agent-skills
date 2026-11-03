@@ -87,6 +87,7 @@ This skill ships a zero-dependency generator at `scripts/release-notes.mjs`. Cop
 - `title` is user-facing and verb-led. `scope` lists packages or paths, never prose.
 - Every entry needs `Why`, `What`, and `Verification`. A breaking change adds `Migration`.
 - Concurrent branches each add their own file. Never resolve a changelog conflict by hand-merging a single file.
+- A release includes every selected entry. If there are several, all of them appear in the release note.
 - Do not put design docs in entries. Link the spec or ADR; keep the entry to what shipped and why.
 
 ### Release sequence
@@ -101,7 +102,7 @@ If the project has no generator, use the bundled one rather than writing entries
 - determine the boundary from `--baseline`, the latest Git tag, or `.last-release.json`
 - select only entries added or modified since that boundary
 - reject modifications or deletions of released entries
-- generate notes grouped by `type`, with title, scope, `Why`, `What`, `Verification`, and `Migration`
+- generate notes grouped by `type`, with title, a commit link when available, scope, `Why`, `What`, `Verification`, and `Migration`
 - update `.last-release.json` only after a successful write
 - `--check` and `--dry-run`
 
