@@ -3,7 +3,7 @@ name: k79-prompt-craft
 description: Builds a focused, outcome-oriented prompt from a vague request or an ongoing task. Use when the user asks for a prompt, task prompt, continuation prompt, or wants to turn an idea into a precise prompt for another agent. It gathers evidence, interviews the user until the goal is agreed, challenges the scope, then emits one copy-pasteable prompt.
 license: MIT
 metadata:
-  version: "2.4.2"
+  version: "2.4.3"
   source: "AbdulWadudh/k79-agent-skills"
 ---
 

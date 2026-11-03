@@ -1,7 +1,7 @@
 {
-  "version": "2.4.2",
-  "tag": "v2.4.2",
-  "generatedAt": "2026-11-03T20:07:36.076Z",
+  "version": "2.4.3",
+  "tag": "v2.4.3",
+  "generatedAt": "2026-11-03T20:09:16.162Z",
   "entries": [
     {
       "path": "changelog/2026/11/2026-11-03-agent-agnostic-install.md",
@@ -98,6 +98,10 @@
     {
       "path": "changelog/2026/11/2026-11-04-remove-changelog-generate-release-notes.md",
       "sha256": "7b0100e1f134d281efc0fb3625c41e1d14b35c0bfaa5f046f3a58008cee6714f"
+    },
+    {
+      "path": "changelog/2026/11/2026-11-04-remove-full-diff-link.md",
+      "sha256": "6ca47d4c2bccf52df0ba5f43847207a5284a4d2f3af840500a59bc2ec2848c2f"
     },
     {
       "path": "changelog/2026/11/2026-11-04-validate-release-notes.md",

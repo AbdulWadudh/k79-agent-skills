@@ -3,8 +3,8 @@ title: "Remove the redundant Full diff link from release notes"
 date: "2026-11-04"
 type: changed
 scope: "skills/k79-logging-errors-git/scripts/release-notes.mjs, release-notes/v2.4.2.md"
-version: ""
-released: ""
+version: "2.4.3"
+released: "2026-11-03"
 breaking: false
 highlight: false
 ---
